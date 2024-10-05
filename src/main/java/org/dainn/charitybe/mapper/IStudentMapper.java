@@ -1,0 +1,19 @@
+package org.dainn.charitybe.mapper;
+
+import org.dainn.charitybe.dto.StudentDTO;
+import org.dainn.charitybe.entity.StudentEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+@Mapper(componentModel = "spring")
+public interface IStudentMapper {
+    StudentEntity toEntity(StudentDTO dto);
+
+    @Mapping(target = "educationId", source = "education.id")
+    StudentDTO toDTO(StudentEntity entity);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    StudentEntity updateEntity(@MappingTarget StudentEntity entity, StudentDTO dto);
+}

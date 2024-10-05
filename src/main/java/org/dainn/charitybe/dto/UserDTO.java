@@ -23,5 +23,5 @@ public class UserDTO extends BaseDTO {
     private String password;
 
     private Provider provider;
-    private List<String> rolesName = new ArrayList<>();
+    private String roleName;
 }
