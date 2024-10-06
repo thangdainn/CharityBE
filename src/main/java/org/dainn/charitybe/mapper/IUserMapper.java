@@ -1,7 +1,7 @@
 package org.dainn.charitybe.mapper;
 
-import org.dainn.charitybe.dto.UserDTO;
-import org.dainn.charitybe.entity.UserEntity;
+import org.dainn.charitybe.dtos.UserDTO;
+import org.dainn.charitybe.models.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

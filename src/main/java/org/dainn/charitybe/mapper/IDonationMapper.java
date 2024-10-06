@@ -1,7 +1,7 @@
 package org.dainn.charitybe.mapper;
 
-import org.dainn.charitybe.dto.DonationDTO;
-import org.dainn.charitybe.entity.DonationEntity;
+import org.dainn.charitybe.dtos.DonationDTO;
+import org.dainn.charitybe.models.DonationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

@@ -1,7 +1,7 @@
 package org.dainn.charitybe.mapper;
 
-import org.dainn.charitybe.dto.EducationTypeDTO;
-import org.dainn.charitybe.entity.EducationTypeEntity;
+import org.dainn.charitybe.dtos.EducationTypeDTO;
+import org.dainn.charitybe.models.EducationTypeEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
