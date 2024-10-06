@@ -25,8 +25,8 @@ public enum ErrorCode {
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),
 
-    SUPPLIER_EXISTED("Supplier existed", HttpStatus.BAD_REQUEST),
-    SUPPLIER_NOT_EXISTED("Supplier not existed", HttpStatus.NOT_FOUND),
+    SPONSOR_EXISTED("Sponsor existed", HttpStatus.BAD_REQUEST),
+    SPONSOR_NOT_EXISTED("Sponsor not existed", HttpStatus.NOT_FOUND),
 
     SIZE_EXISTED("Size existed", HttpStatus.BAD_REQUEST),
     SIZE_NOT_EXISTED("Size not existed", HttpStatus.NOT_FOUND),
