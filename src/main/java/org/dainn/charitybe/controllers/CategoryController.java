@@ -45,21 +45,21 @@ public class CategoryController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody CategoryDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(dto));
     }
 
-    @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> update(@Min(1) @PathVariable(name = "id") Integer id,
+    @PutMapping(Endpoint.Category.ID)
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
                                     @Valid @RequestBody CategoryDTO dto) {
         dto.setId(id);
         return ResponseEntity.ok(categoryService.update(dto));
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         categoryService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -1,6 +1,7 @@
 package org.dainn.charitybe.mapper;
 
 import org.dainn.charitybe.dtos.UserDTO;
+import org.dainn.charitybe.dtos.request.UserRequest;
 import org.dainn.charitybe.models.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +13,7 @@ public interface IUserMapper {
 //    UserRequest toUserRequest(RegisterRequest request);
 //    UserRequest toUserRequest(UserDTO dto);
 
-//    UserDTO toDTO(UserRequest userRequest);
+    UserDTO toDTO(UserRequest userRequest);
     @Mapping(target = "roleName", source = "role.name")
     UserDTO toDTO(UserEntity entity);
 
