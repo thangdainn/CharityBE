@@ -1,9 +1,14 @@
 package org.dainn.charitybe.dtos.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.dainn.charitybe.enums.Provider;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,7 +17,6 @@ import org.dainn.charitybe.enums.Provider;
 @Builder
 public class UserRequest {
     private Integer id;
-    private Integer status = 1;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email is invalid")
@@ -20,7 +24,13 @@ public class UserRequest {
 
     @NotBlank(message = "Name is required")
     private String name;
+
     private Provider provider = Provider.LOCAL;
+
     private String password;
+
+    @JsonProperty("role_name")
     private String roleName;
+
+    private Integer status = 1;
 }

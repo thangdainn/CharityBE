@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleSearch extends PageRequest {
+public class BaseSearch extends PageRequest {
     private String keyword;
     private Integer status = 1;
 }

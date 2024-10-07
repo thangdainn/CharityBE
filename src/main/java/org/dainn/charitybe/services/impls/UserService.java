@@ -3,7 +3,6 @@ package org.dainn.charitybe.services.impls;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.RoleConstant;
 import org.dainn.charitybe.dtos.UserDTO;
-import org.dainn.charitybe.dtos.request.UserRequest;
 import org.dainn.charitybe.dtos.request.UserSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.enums.Provider;
@@ -39,35 +38,33 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public UserDTO insert(UserRequest userRequest) {
-        UserDTO userDTO = userMapper.toDTO(userRequest);
-        if (checkEmailAndProvider(userDTO.getEmail(), userDTO.getProvider())) {
+    public UserDTO insert(UserDTO dto) {
+        if (checkEmailAndProvider(dto.getEmail(), dto.getProvider())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-        UserEntity userEntity = userMapper.toEntity(userDTO);
-        userEntity.setPassword(encoder.encode(userDTO.getPassword()));
-        userEntity.setRole(handleRole(userDTO.getRoleName()));
+        UserEntity userEntity = userMapper.toEntity(dto);
+        userEntity.setPassword(encoder.encode(dto.getPassword()));
+        userEntity.setRole(handleRole(dto.getRoleName()));
         return userMapper.toDTO(userRepository.save(userEntity));
     }
 
 
     @Transactional
     @Override
-    public UserDTO update(UserRequest userRequest) {
-        UserDTO userDTO = userMapper.toDTO(userRequest);
-        UserEntity userOld = userRepository.findById(userDTO.getId())
+    public UserDTO update(UserDTO dto) {
+        UserEntity userOld = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        if (!userOld.getEmail().equals(userDTO.getEmail())
-                && checkEmailAndProvider(userDTO.getEmail(), userDTO.getProvider())) {
+        if (!userOld.getEmail().equals(dto.getEmail())
+                && checkEmailAndProvider(dto.getEmail(), dto.getProvider())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-        if (userDTO.getPassword().isBlank()) {
-            userDTO.setPassword(userOld.getPassword());
+        if (dto.getPassword().isBlank()) {
+            dto.setPassword(userOld.getPassword());
         } else {
-            userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+            dto.setPassword(encoder.encode(dto.getPassword()));
         }
-        UserEntity userEntity = userMapper.updateEntity(userOld, userDTO);
-        userEntity.setRole(handleRole(userDTO.getRoleName()));
+        UserEntity userEntity = userMapper.updateEntity(userOld, dto);
+        userEntity.setRole(handleRole(dto.getRoleName()));
         return userMapper.toDTO(userRepository.save(userEntity));
     }
 

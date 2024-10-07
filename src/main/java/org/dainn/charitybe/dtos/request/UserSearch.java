@@ -1,5 +1,6 @@
 package org.dainn.charitybe.dtos.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,10 @@ import org.dainn.charitybe.enums.Provider;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSearch extends PageRequest {
-    private String keyword;
+public class UserSearch extends BaseSearch {
+
+    @JsonProperty("role_id")
     private Integer roleId;
+
     private Provider provider;
-    private Integer status = 1;
 }

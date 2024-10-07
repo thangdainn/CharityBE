@@ -2,7 +2,7 @@ package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.SponsorDTO;
-import org.dainn.charitybe.dtos.request.SponsorSearch;
+import org.dainn.charitybe.dtos.request.BaseSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.ISponsorMapper;
@@ -78,7 +78,7 @@ public class SponsorService implements ISponsorService {
     }
 
     @Override
-    public Page<SponsorDTO> findAllByName(SponsorSearch request) {
+    public Page<SponsorDTO> findAllByName(BaseSearch request) {
         Page<SponsorEntity> page = (StringUtils.hasText(request.getKeyword())
                 ? sponsorRepository.findAllByNameContainingIgnoreCaseAndStatus(request.getKeyword(), request.getStatus(), Paging.getPageable(request))
                 : sponsorRepository.findAllByStatus(request.getStatus(), Paging.getPageable(request))
