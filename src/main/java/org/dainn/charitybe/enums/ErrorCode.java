@@ -31,8 +31,9 @@ public enum ErrorCode {
     SPONSOR_EXISTED("Sponsor existed", HttpStatus.BAD_REQUEST),
     SPONSOR_NOT_EXISTED("Sponsor not existed", HttpStatus.NOT_FOUND),
 
-    SIZE_EXISTED("Size existed", HttpStatus.BAD_REQUEST),
-    SIZE_NOT_EXISTED("Size not existed", HttpStatus.NOT_FOUND),
+    PROJECT_EXISTED("Project existed", HttpStatus.BAD_REQUEST),
+    PROJECT_NOT_EXISTED("Project not existed", HttpStatus.NOT_FOUND),
+
     PRODUCT_SIZE_NOT_EXISTED("product-size not existed", HttpStatus.NOT_FOUND),
 
     PRODUCT_EXISTED("Product existed", HttpStatus.BAD_REQUEST),

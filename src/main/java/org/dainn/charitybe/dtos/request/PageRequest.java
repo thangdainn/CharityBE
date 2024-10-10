@@ -10,7 +10,7 @@ import org.dainn.charitybe.constants.PageConstant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class PageRequest {
+public class PageRequest {
     private Integer page;
     private Integer size = PageConstant.DEFAULT_PAGE_SIZE;
     private String sortBy = PageConstant.DEFAULT_SORT_BY;

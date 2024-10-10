@@ -1,5 +1,6 @@
 package org.dainn.charitybe.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,22 +33,23 @@ public class CharityProjectDTO extends BaseDTO {
     @NotNull(message = "Current amount is required")
     private BigDecimal currentAmount;
 
-    @NotNull(message = "Thumbnail is required")
+//    @NotNull(message = "Thumbnail is required")
     private String thumbnail;
 
     @NotNull(message = "Start date is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     @NotNull(message = "End date is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     @NotNull(message = "Project for ?")
     private ProjectFor projectFor;
 
     @NotNull(message = "Category is required")
-    @NotBlank(message = "Category is required")
     private Integer categoryId;
 
     @NotNull(message = "Created by is required")
