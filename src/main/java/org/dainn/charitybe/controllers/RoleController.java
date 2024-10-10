@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.dtos.RoleDTO;
-import org.dainn.charitybe.dtos.request.BaseSearch;
+import org.dainn.charitybe.dtos.request.RoleSearch;
 import org.dainn.charitybe.dtos.response.PageResponse;
 import org.dainn.charitybe.services.impls.RoleService;
 import org.dainn.charitybe.utils.ValidateString;
@@ -24,7 +24,7 @@ public class RoleController {
 
     @GetMapping
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAll(@ModelAttribute BaseSearch request) {
+    public ResponseEntity<?> getAll(@ModelAttribute RoleSearch request) {
         request.setKeyword(ValidateString.trimString(request.getKeyword()));
         if (request.getPage() == null) {
             return ResponseEntity.ok(roleService.findAll(request.getStatus()));

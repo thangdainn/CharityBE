@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.dtos.SponsorDTO;
-import org.dainn.charitybe.dtos.request.BaseSearch;
+import org.dainn.charitybe.dtos.request.SponsorSearch;
 import org.dainn.charitybe.dtos.response.PageResponse;
 import org.dainn.charitybe.services.ISponsorService;
 import org.dainn.charitybe.utils.ValidateString;
@@ -23,7 +23,7 @@ public class SponsorController {
     private final ISponsorService sponsorService;
 
     @GetMapping
-    public ResponseEntity<?> getAll(@ModelAttribute BaseSearch request) {
+    public ResponseEntity<?> getAll(@ModelAttribute SponsorSearch request) {
         request.setKeyword(ValidateString.trimString(request.getKeyword()));
         if (request.getPage() == null) {
             return ResponseEntity.ok(sponsorService.findAll(request.getStatus()));

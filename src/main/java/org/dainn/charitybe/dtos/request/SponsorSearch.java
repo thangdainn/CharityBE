@@ -8,8 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public abstract class BaseSearch extends PageRequest {
-    private String keyword;
-    private Integer status = 1;
+//@NoArgsConstructor
+public class SponsorSearch extends BaseSearch {
 }

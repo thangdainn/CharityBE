@@ -2,7 +2,7 @@ package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.CategoryDTO;
-import org.dainn.charitybe.dtos.request.BaseSearch;
+import org.dainn.charitybe.dtos.request.CategorySearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.ICategoryMapper;
@@ -78,7 +78,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Page<CategoryDTO> findAllByName(BaseSearch request) {
+    public Page<CategoryDTO> findAllByName(CategorySearch request) {
         Page<CategoryEntity> page = (StringUtils.hasText(request.getKeyword())
                 ? categoryRepository.findAllByNameContainingIgnoreCaseAndStatus(request.getKeyword(), request.getStatus(), Paging.getPageable(request))
                 : categoryRepository.findAllByStatus(request.getStatus(), Paging.getPageable(request))

@@ -2,7 +2,7 @@ package org.dainn.charitybe.services;
 
 
 import org.dainn.charitybe.dtos.RoleDTO;
-import org.dainn.charitybe.dtos.request.BaseSearch;
+import org.dainn.charitybe.dtos.request.RoleSearch;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -13,5 +13,5 @@ public interface IRoleService extends IBaseService<RoleDTO> {
 
     List<RoleDTO> findAll(Integer status);
 
-    Page<RoleDTO> findAllByName(BaseSearch request);
+    Page<RoleDTO> findAllByName(RoleSearch request);
 }

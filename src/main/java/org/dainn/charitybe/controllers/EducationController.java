@@ -4,10 +4,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
-import org.dainn.charitybe.dtos.CategoryDTO;
-import org.dainn.charitybe.dtos.request.CategorySearch;
+import org.dainn.charitybe.dtos.EducationDTO;
+import org.dainn.charitybe.dtos.request.EducationSearch;
 import org.dainn.charitybe.dtos.response.PageResponse;
-import org.dainn.charitybe.services.ICategoryService;
+import org.dainn.charitybe.services.IEducationService;
 import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(Endpoint.Category.BASE)
+@RequestMapping(Endpoint.Education.BASE)
 @RequiredArgsConstructor
-public class CategoryController {
-    private final ICategoryService categoryService;
+public class EducationController {
+    private final IEducationService educationService;
 
     @GetMapping
-    public ResponseEntity<?> getAll(@ModelAttribute CategorySearch request) {
+    public ResponseEntity<?> getAll(@ModelAttribute EducationSearch request) {
         request.setKeyword(ValidateString.trimString(request.getKeyword()));
         if (request.getPage() == null) {
-            return ResponseEntity.ok(categoryService.findAll(request.getStatus()));
+            return ResponseEntity.ok(educationService.findAll(request.getStatus()));
         }
-        Page<CategoryDTO> page = categoryService.findAllByName(request);
+        Page<EducationDTO> page = educationService.findAllByConditions(request);
 
-        return ResponseEntity.ok(PageResponse.<CategoryDTO>builder()
+        return ResponseEntity.ok(PageResponse.<EducationDTO>builder()
                 .page(page.getPageable().getPageNumber())
                 .size(page.getPageable().getPageSize())
                 .totalElements(page.getTotalElements())
@@ -38,29 +38,29 @@ public class CategoryController {
                 .build());
     }
 
-    @GetMapping(Endpoint.Category.ID)
+    @GetMapping(Endpoint.Education.ID)
     public ResponseEntity<?> get(@Min(1) @PathVariable Integer id) {
-        return ResponseEntity.ok(categoryService.findById(id));
+        return ResponseEntity.ok(educationService.findById(id));
     }
 
     @PostMapping
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@Valid @RequestBody CategoryDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(dto));
+    public ResponseEntity<?> create(@Valid @RequestBody EducationDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(educationService.insert(dto));
     }
 
-    @PutMapping(Endpoint.Category.ID)
+    @PutMapping(Endpoint.Education.ID)
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
-                                    @Valid @RequestBody CategoryDTO dto) {
+                                    @Valid @RequestBody EducationDTO dto) {
         dto.setId(id);
-        return ResponseEntity.ok(categoryService.update(dto));
+        return ResponseEntity.ok(educationService.update(dto));
     }
 
     @DeleteMapping
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
-        categoryService.delete(ids);
+        educationService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

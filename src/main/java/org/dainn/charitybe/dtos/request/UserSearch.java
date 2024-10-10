@@ -13,8 +13,6 @@ import org.dainn.charitybe.enums.Provider;
 @NoArgsConstructor
 public class UserSearch extends BaseSearch {
 
-    @JsonProperty("role_id")
     private Integer roleId;
-
     private Provider provider;
 }

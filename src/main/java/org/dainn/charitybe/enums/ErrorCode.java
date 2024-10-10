@@ -19,8 +19,11 @@ public enum ErrorCode {
     ROLE_EXISTED("Role existed", HttpStatus.BAD_REQUEST),
     ROLE_NOT_EXISTED("Role not existed", HttpStatus.NOT_FOUND),
 
-    BRAND_EXISTED("Brand existed", HttpStatus.BAD_REQUEST),
-    BRAND_NOT_EXISTED("Brand not existed", HttpStatus.NOT_FOUND),
+    EDUCATION_EXISTED("Education existed", HttpStatus.BAD_REQUEST),
+    EDUCATION_NOT_EXISTED("Education not existed", HttpStatus.NOT_FOUND),
+
+    EDUCATION_TYPE_EXISTED("Education type existed", HttpStatus.BAD_REQUEST),
+    EDUCATION_TYPE_NOT_EXISTED("Education type not existed", HttpStatus.NOT_FOUND),
 
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),

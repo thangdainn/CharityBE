@@ -3,7 +3,7 @@ package org.dainn.charitybe.services.impls;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.RoleConstant;
 import org.dainn.charitybe.dtos.RoleDTO;
-import org.dainn.charitybe.dtos.request.BaseSearch;
+import org.dainn.charitybe.dtos.request.RoleSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IRoleMapper;
@@ -81,7 +81,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public Page<RoleDTO> findAllByName(BaseSearch request) {
+    public Page<RoleDTO> findAllByName(RoleSearch request) {
         Page<RoleEntity> page = (StringUtils.hasText(request.getKeyword())
                 ? roleRepository.findAllByNameContainingIgnoreCaseAndStatus(request.getKeyword(), request.getStatus(), Paging.getPageable(request))
                 : roleRepository.findAllByStatus(request.getStatus(), Paging.getPageable(request))

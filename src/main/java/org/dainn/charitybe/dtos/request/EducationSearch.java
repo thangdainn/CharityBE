@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class BaseSearch extends PageRequest {
-    private String keyword;
-    private Integer status = 1;
+public class EducationSearch extends BaseSearch {
+    private Integer typeId;
+
 }
