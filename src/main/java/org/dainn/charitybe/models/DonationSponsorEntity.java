@@ -21,9 +21,6 @@ public class DonationSponsorEntity extends BaseEntity {
     @Digits(integer = 20, fraction = 0)
     private BigDecimal amount;
 
-    @Column(name = "is_paid", nullable = false)
-    private Integer idPaid;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sponsor_id", nullable = false)
     private SponsorEntity sponsor;

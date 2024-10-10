@@ -17,9 +17,6 @@ public class DonationSponsorDTO extends BaseDTO {
     @NotNull(message = "Amount is required")
     private BigDecimal amount;
 
-    @NotNull(message = "Paid is required")
-    private Integer isPaid;
-
     @NotNull(message = "Project Id is required")
     private Integer projectId;
 
