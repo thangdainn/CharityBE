@@ -1,6 +1,5 @@
 package org.dainn.charitybe.services.impls;
 
-import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.CharityProjectDTO;
 import org.dainn.charitybe.dtos.request.CharityProjectSearch;
@@ -14,6 +13,7 @@ import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
 import org.dainn.charitybe.repositories.specification.SpecificationBuilder;
+import org.dainn.charitybe.services.CloudinaryService;
 import org.dainn.charitybe.services.IProjectService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ public class ProjectService implements IProjectService {
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
     private final ICharityProjectMapper projectMapper;
-    private final Cloudinary cloudinary;
+    private final CloudinaryService cloudinaryService;
 
     @Transactional
     @Override
@@ -77,17 +77,9 @@ public class ProjectService implements IProjectService {
     @Override
     public CharityProjectDTO insert(CharityProjectDTO dto, MultipartFile thumbnail) {
         CharityProjectEntity entity = projectMapper.toEntity(dto);
-        entity.setThumbnail(uploadImage(thumbnail));
+        entity.setThumbnail(cloudinaryService.uploadFile(thumbnail));
         setAttributes(entity, dto);
         return projectMapper.toDTO(projectRepository.save(entity));
-    }
-
-    private String uploadImage(MultipartFile image) {
-        try {
-            return cloudinary.uploader().upload(image.getBytes(), null).get("secure_url").toString();
-        } catch (Exception e) {
-            throw new AppException(ErrorCode.UPLOAD_IMAGE_FAILED);
-        }
     }
 
     @Override

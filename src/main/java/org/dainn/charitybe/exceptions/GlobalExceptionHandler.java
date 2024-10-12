@@ -77,6 +77,13 @@ public class GlobalExceptionHandler {
         return ProblemDetail
                 .forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ProblemDetail handleFileUploadException(FileUploadException e) {
+        return ProblemDetail
+                .forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleException(Exception e) {
         return ProblemDetail
