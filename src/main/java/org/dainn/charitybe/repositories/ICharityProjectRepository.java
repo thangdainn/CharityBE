@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface ICharityProjectRepository extends JpaRepository<CharityProjectEntity, Integer>, JpaSpecificationExecutor<CharityProjectEntity> {
     Optional<CharityProjectEntity> findByName(String name);
+    Optional<CharityProjectEntity> findByCode(String code);
 
     @Modifying
     @Query("UPDATE CharityProjectEntity r SET r.status = 0 WHERE r.id IN :ids")

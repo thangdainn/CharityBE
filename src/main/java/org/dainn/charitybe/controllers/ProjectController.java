@@ -39,9 +39,9 @@ public class ProjectController {
                 .build());
     }
 
-    @GetMapping(Endpoint.Project.ID)
-    public ResponseEntity<?> get(@Min(1) @PathVariable Integer id) {
-        return ResponseEntity.ok(projectService.findById(id));
+    @GetMapping(Endpoint.Project.CODE)
+    public ResponseEntity<?> get( @PathVariable String code) {
+        return ResponseEntity.ok(projectService.findByCode(code));
     }
 
     @PostMapping

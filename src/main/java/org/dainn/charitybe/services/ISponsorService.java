@@ -7,7 +7,11 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public interface ISponsorService extends IBaseService<SponsorDTO> {
+public interface ISponsorService {
+    SponsorDTO insert(SponsorDTO dto);
+    SponsorDTO update(SponsorDTO dto);
+    void delete(List<Integer> ids);
+    SponsorDTO findById(Integer id);
     SponsorDTO findByName(String name);
     List<SponsorDTO> findAll();
     List<SponsorDTO> findAll(Integer status);

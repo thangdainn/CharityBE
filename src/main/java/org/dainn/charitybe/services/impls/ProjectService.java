@@ -13,7 +13,6 @@ import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
 import org.dainn.charitybe.repositories.specification.SpecificationBuilder;
-import org.dainn.charitybe.services.CloudinaryService;
 import org.dainn.charitybe.services.IProjectService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
@@ -21,11 +20,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,6 @@ public class ProjectService implements IProjectService {
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
     private final ICharityProjectMapper projectMapper;
-    private final CloudinaryService cloudinaryService;
 
     @Transactional
     @Override
@@ -55,7 +54,15 @@ public class ProjectService implements IProjectService {
         return projectMapper.toDTO(projectRepository.save(entity));
     }
 
+    private String generateCodeFromName(String name) {
+        String noAccent = Normalizer.normalize(name, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        String noSpecialChar = pattern.matcher(noAccent).replaceAll("");
+        return noSpecialChar.toLowerCase().replace("\\s+", "-");
+    }
+
     private void setAttributes(CharityProjectEntity entity, CharityProjectDTO dto) {
+        entity.setCode(generateCodeFromName(dto.getName()));
         entity.setUser(userRepository.findById(dto.getCreatedId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
         entity.setCategory(categoryRepository.findById(dto.getCategoryId())
@@ -75,11 +82,9 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public CharityProjectDTO insert(CharityProjectDTO dto, MultipartFile thumbnail) {
-        CharityProjectEntity entity = projectMapper.toEntity(dto);
-        entity.setThumbnail(cloudinaryService.uploadFile(thumbnail));
-        setAttributes(entity, dto);
-        return projectMapper.toDTO(projectRepository.save(entity));
+    public CharityProjectDTO findByCode(String code) {
+        return projectMapper.toDTO(projectRepository.findByCode(code)
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_EXISTED)));
     }
 
     @Override

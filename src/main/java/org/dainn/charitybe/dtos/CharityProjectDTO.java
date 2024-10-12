@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dainn.charitybe.enums.ProjectFor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,6 +21,8 @@ public class CharityProjectDTO extends BaseDTO {
     @NotNull(message = "Name is required")
     @NotBlank(message = "Name is required")
     private String name;
+
+    private String code;
 
     @NotNull(message = "Description is required")
     @NotBlank(message = "Description is required")

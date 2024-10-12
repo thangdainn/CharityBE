@@ -34,6 +34,7 @@ public enum ErrorCode {
     PROJECT_EXISTED("Project existed", HttpStatus.BAD_REQUEST),
     PROJECT_NOT_EXISTED("Project not existed", HttpStatus.NOT_FOUND),
 
+    DONATION_SPONSOR_NOT_EXISTED("donation-sponsor not existed", HttpStatus.NOT_FOUND),
     PRODUCT_SIZE_NOT_EXISTED("product-size not existed", HttpStatus.NOT_FOUND),
 
     PRODUCT_EXISTED("Product existed", HttpStatus.BAD_REQUEST),
@@ -42,10 +43,6 @@ public enum ErrorCode {
     PRODUCT_NAME_EXISTED("Product name existed", HttpStatus.BAD_REQUEST),
 
     UPLOAD_IMAGE_FAILED("Upload image failed", HttpStatus.BAD_REQUEST),
-
-    GOOD_RECEIPT_NOT_EXISTED("Good Receipt not existed", HttpStatus.NOT_FOUND),
-
-    ORDER_NOT_EXISTED("Order not existed", HttpStatus.NOT_FOUND),
 
     EMAIL_IS_INCORRECT("Email is incorrect", HttpStatus.BAD_REQUEST),
     PASSWORD_IS_INCORRECT("Password is incorrect", HttpStatus.BAD_REQUEST),

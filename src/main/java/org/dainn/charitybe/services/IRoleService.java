@@ -7,7 +7,11 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public interface IRoleService extends IBaseService<RoleDTO> {
+public interface IRoleService {
+    RoleDTO insert(RoleDTO dto);
+    RoleDTO update(RoleDTO dto);
+    void delete(List<Integer> ids);
+    RoleDTO findById(Integer id);
     RoleDTO findByName(String name);
     List<RoleDTO> findAll();
 
