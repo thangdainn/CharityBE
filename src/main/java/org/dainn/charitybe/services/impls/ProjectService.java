@@ -58,7 +58,7 @@ public class ProjectService implements IProjectService {
         String noAccent = Normalizer.normalize(name, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         String noSpecialChar = pattern.matcher(noAccent).replaceAll("");
-        return noSpecialChar.toLowerCase().replace("\\s+", "-");
+        return noSpecialChar.toLowerCase().replaceAll("\\s+", "-");
     }
 
     private void setAttributes(CharityProjectEntity entity, CharityProjectDTO dto) {

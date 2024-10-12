@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,9 +45,8 @@ public class ProjectController {
 
     @PostMapping
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@Valid @RequestPart("project") CharityProjectDTO dto,
-                                    @Valid @RequestPart("thumbnail") MultipartFile thumbnail) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.insert(dto, thumbnail));
+    public ResponseEntity<?> create(@Valid @RequestBody CharityProjectDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.insert(dto));
     }
 
     @PutMapping(Endpoint.Project.ID)

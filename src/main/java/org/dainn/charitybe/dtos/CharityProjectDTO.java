@@ -1,6 +1,5 @@
 package org.dainn.charitybe.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dainn.charitybe.enums.ProjectFor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,17 +34,18 @@ public class CharityProjectDTO extends BaseDTO {
     @NotNull(message = "Current amount is required")
     private BigDecimal currentAmount;
 
-//    @NotNull(message = "Thumbnail is required")
+    @NotNull(message = "Thumbnail is required")
+    @NotBlank(message = "Thumbnail is required")
     private String thumbnail;
 
     @NotNull(message = "Start date is required")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
     @NotNull(message = "End date is required")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     @NotNull(message = "Project for ?")

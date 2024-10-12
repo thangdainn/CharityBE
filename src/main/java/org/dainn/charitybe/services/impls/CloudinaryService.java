@@ -2,6 +2,7 @@ package org.dainn.charitybe.services.impls;
 
 import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
+import org.dainn.charitybe.dtos.response.CloudinaryResponse;
 import org.dainn.charitybe.exceptions.FileUploadException;
 import org.dainn.charitybe.services.ICloudinaryService;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,10 @@ public class CloudinaryService implements ICloudinaryService {
     private final Cloudinary cloudinary;
 
     @Override
-    public String uploadFile(MultipartFile file) {
+    public CloudinaryResponse uploadFile(MultipartFile file) {
         try {
-            return cloudinary.uploader().upload(file.getBytes(), null).get("url").toString();
+            String url = cloudinary.uploader().upload(file.getBytes(), null).get("url").toString();
+            return new CloudinaryResponse(url);
         } catch (Exception e) {
             throw new FileUploadException(e.getMessage());
         }
