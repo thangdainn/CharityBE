@@ -26,7 +26,7 @@ public class ProjectController {
     public ResponseEntity<?> getAll(@ModelAttribute CharityProjectSearch request) {
         request.setKeyword(ValidateString.trimString(request.getKeyword()));
         if (request.getPage() == null) {
-            return ResponseEntity.ok(projectService.findAll(request.getStatus()));
+            return ResponseEntity.ok(projectService.findAll());
         }
         Page<CharityProjectDTO> page = projectService.findAllByFilters(request);
 
@@ -55,12 +55,5 @@ public class ProjectController {
                                     @Valid @RequestBody CharityProjectDTO dto) {
         dto.setId(id);
         return ResponseEntity.ok(projectService.update(dto));
-    }
-
-    @DeleteMapping
-//    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
-        projectService.delete(ids);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

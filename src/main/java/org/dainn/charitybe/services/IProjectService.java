@@ -10,10 +10,8 @@ import java.util.List;
 public interface IProjectService {
     CharityProjectDTO insert(CharityProjectDTO dto);
     CharityProjectDTO update(CharityProjectDTO dto);
-    void delete(List<Integer> ids);
     CharityProjectDTO findById(Integer id);
     CharityProjectDTO findByCode(String code);
     List<CharityProjectDTO> findAll();
-    List<CharityProjectDTO> findAll(Integer status);
     Page<CharityProjectDTO> findAllByFilters(CharityProjectSearch request);
 }

@@ -29,6 +29,9 @@ public class EducationEntity extends BaseEntity {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    private Integer status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
     private EducationTypeEntity educationType;

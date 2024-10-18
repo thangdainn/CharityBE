@@ -29,6 +29,8 @@ public class EducationDTO extends BaseDTO{
     @NotNull(message = "Address is required")
     private String address;
 
+    private Integer status = 1;
+
     @NotNull(message = "Education type is required")
     @JsonProperty("type_id")
     private Integer typeId;
