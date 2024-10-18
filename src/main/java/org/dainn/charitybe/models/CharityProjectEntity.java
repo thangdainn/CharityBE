@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dainn.charitybe.enums.ProjectFor;
+import org.dainn.charitybe.enums.ProjectStatus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,6 +52,10 @@ public class CharityProjectEntity extends BaseEntity {
     @Column(name = "end_date", nullable = false)
     private Date endDate;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProjectStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_id")
     private UserEntity user;
@@ -58,9 +63,6 @@ public class CharityProjectEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-
-    @OneToMany(mappedBy = "charityProject")
-    private List<DonationSponsorEntity> donationSponsors = new ArrayList<>();
 
     @OneToMany(mappedBy = "charityProject")
     private List<DonationEntity> donations = new ArrayList<>();

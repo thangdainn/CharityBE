@@ -20,6 +20,7 @@ public class UserDTO extends BaseDTO {
     private String avatar;
     private String password;
     private Provider provider;
+    private Integer status = 1;
 
     @JsonProperty("role_name")
     private String roleName;

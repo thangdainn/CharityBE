@@ -19,4 +19,6 @@ public class CategoryDTO extends BaseDTO{
     @NotBlank(message = "Description is required")
     @NotNull(message = "Description is required")
     private String description;
+
+    private Integer status = 1;
 }

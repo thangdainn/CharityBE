@@ -10,4 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 //@NoArgsConstructor
 public class CategorySearch extends BaseSearch {
+    private Integer status = 1;
+
 }

@@ -15,4 +15,6 @@ public class UserSearch extends BaseSearch {
 
     private Integer roleId;
     private Provider provider;
+    private Integer status = 1;
+
 }

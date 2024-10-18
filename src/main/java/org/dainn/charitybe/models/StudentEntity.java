@@ -34,6 +34,9 @@ public class StudentEntity extends BaseEntity{
     @Column(name = "address", nullable = false)
     private String address;
 
+    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    private Integer status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_id", nullable = false)
     private EducationEntity education;

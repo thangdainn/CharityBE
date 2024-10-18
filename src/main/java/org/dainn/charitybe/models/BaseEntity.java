@@ -21,25 +21,10 @@ public abstract class BaseEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "status")
-    private Integer status;
-
-    @PrePersist
-    public void prePersist() {
-        if (status == null) {
-            status = 1;
-        }
-    }
-
     @Column(name = "created_date")
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdDate;
 
-//    @Column(name = "modified_date")
-//    @LastModifiedDate
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    private Date modifiedDate;
 }
