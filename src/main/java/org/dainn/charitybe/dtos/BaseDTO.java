@@ -14,7 +14,6 @@ import java.util.Date;
 @AllArgsConstructor
 public abstract class BaseDTO {
     private Integer id;
-    private Integer status = 1;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdDate;

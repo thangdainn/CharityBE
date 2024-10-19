@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EducationSearch extends BaseSearch {
     private Integer typeId;
-
+    private Integer status = 1;
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dainn.charitybe.enums.ProjectFor;
+import org.dainn.charitybe.enums.ProjectStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -50,6 +51,8 @@ public class CharityProjectDTO extends BaseDTO {
 
     @NotNull(message = "Project for ?")
     private ProjectFor projectFor;
+
+    private ProjectStatus status;
 
     @NotNull(message = "Category is required")
     private Integer categoryId;

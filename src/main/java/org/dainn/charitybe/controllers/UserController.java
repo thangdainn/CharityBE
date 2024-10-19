@@ -5,10 +5,8 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.dtos.UserDTO;
-import org.dainn.charitybe.dtos.request.UserRequest;
 import org.dainn.charitybe.dtos.request.UserSearch;
 import org.dainn.charitybe.dtos.response.PageResponse;
-import org.dainn.charitybe.mapper.IUserMapper;
 import org.dainn.charitybe.services.IUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
-    private final IUserMapper userMapper;
 
     @GetMapping
 //    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
@@ -47,15 +44,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody UserRequest request) {
-        UserDTO dto = userMapper.toDTO(request);
+    public ResponseEntity<?> create(@Valid @RequestBody UserDTO dto) {
+//        UserDTO dto = userMapper.toDTO(request);
         return ResponseEntity.ok(userService.insert(dto));
     }
 
     @PutMapping(Endpoint.User.ID)
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody UserRequest request) {
-        request.setId(id);
-        UserDTO dto = userMapper.toDTO(request);
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody UserDTO dto) {
+        dto.setId(id);
+//        UserDTO dto = userMapper.toDTO(request);
         return ResponseEntity.ok(userService.update(dto));
     }
 

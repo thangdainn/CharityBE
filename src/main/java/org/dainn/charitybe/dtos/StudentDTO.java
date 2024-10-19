@@ -30,6 +30,8 @@ public class StudentDTO extends BaseDTO {
     @NotNull(message = "Address is required")
     private String address;
 
+    private Integer status = 1;
+
     @NotNull(message = "Education is required")
     private Integer educationId;
 }

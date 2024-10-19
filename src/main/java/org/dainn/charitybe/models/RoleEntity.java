@@ -26,6 +26,9 @@ public class RoleEntity extends BaseEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    private Integer status;
+
     @OneToMany(mappedBy = "role")
     private List<UserEntity> users = new ArrayList<>();
 }

@@ -15,10 +15,4 @@ import java.util.Optional;
 public interface ICharityProjectRepository extends JpaRepository<CharityProjectEntity, Integer>, JpaSpecificationExecutor<CharityProjectEntity> {
     Optional<CharityProjectEntity> findByName(String name);
     Optional<CharityProjectEntity> findByCode(String code);
-
-    @Modifying
-    @Query("UPDATE CharityProjectEntity r SET r.status = 0 WHERE r.id IN :ids")
-    void deleteAllByIdInBatchCustom(@Param("ids") List<Integer> ids);
-
-    List<CharityProjectEntity> findAllByStatus(Integer status);
 }

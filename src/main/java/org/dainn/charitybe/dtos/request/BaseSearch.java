@@ -11,5 +11,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BaseSearch extends PageRequest {
     private String keyword;
-    private Integer status = 1;
 }

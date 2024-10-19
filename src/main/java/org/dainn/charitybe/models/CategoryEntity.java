@@ -25,6 +25,9 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    private Integer status;
+
     @OneToMany(mappedBy = "category")
     private List<CharityProjectEntity> projects = new ArrayList<>();
 

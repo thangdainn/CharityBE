@@ -1,5 +1,6 @@
 package org.dainn.charitybe.config.security;
 
+import org.dainn.charitybe.filters.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -17,22 +18,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-//    private final CustomUserDetailService customUserDetailService;
+    private final CustomUserDetailService customUserDetailService;
 
-//    public SecurityConfig(CustomUserDetailService customUserDetailService) {
-//        this.customUserDetailService = customUserDetailService;
-//    }
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return customUserDetailService;
-//    }
+    public SecurityConfig(CustomUserDetailService customUserDetailService) {
+        this.customUserDetailService = customUserDetailService;
+    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return customUserDetailService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,9 +49,9 @@ public class SecurityConfig {
 //        return new RestTemplate();
 //    }
 
-//    @Autowired
-//    @Qualifier("handlerExceptionResolver")
-//    private HandlerExceptionResolver exceptionResolver;
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver exceptionResolver;
 
     @Bean
     @Order(1)
@@ -93,8 +93,8 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//                .addFilterBefore(new JwtAuthenticationFilter(exceptionResolver, customUserDetailService), UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtAuthenticationFilter(exceptionResolver, customUserDetailService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

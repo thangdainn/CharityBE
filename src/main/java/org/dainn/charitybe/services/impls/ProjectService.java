@@ -69,12 +69,6 @@ public class ProjectService implements IProjectService {
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTED)));
     }
 
-    @Transactional
-    @Override
-    public void delete(List<Integer> ids) {
-        projectRepository.deleteAllByIdInBatchCustom(ids);
-    }
-
     @Override
     public CharityProjectDTO findById(Integer id) {
         return projectMapper.toDTO(projectRepository.findById(id)
@@ -94,29 +88,32 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public List<CharityProjectDTO> findAll(Integer status) {
-        return projectRepository.findAllByStatus(status)
-                .stream().map(projectMapper::toDTO).toList();
-    }
-
-    @Override
     public Page<CharityProjectDTO> findAllByFilters(CharityProjectSearch request) {
         SpecificationBuilder<CharityProjectEntity> builder = new SpecificationBuilder<>();
         Page<CharityProjectEntity> page;
         Specification<CharityProjectEntity> spec;
-        if (StringUtils.hasText(request.getKeyword())) {
-            builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), false);
-        }
-        builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
-        if (request.getProjectFor() != null){
-            builder.with("projectFor", SearchOperation.EQUALITY, request.getProjectFor(), false);
-        }
-        if (request.getStartDate() != null){
-            builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
-        }
-        if (request.getEndDate() != null){
-            builder.with("endDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
-        }
+
+        builder.with("name", StringUtils.hasText(request.getKeyword()) ? SearchOperation.CONTAINS : null, request.getKeyword(), false)
+                .with("status", request.getStatus() != null ? SearchOperation.EQUALITY : null, request.getStatus(), false)
+                .with("projectFor", request.getProjectFor() != null ? SearchOperation.EQUALITY : null, request.getProjectFor(), false)
+                .with("startDate", request.getStartDate() != null ? SearchOperation.GREATER_THAN_OR_EQUAL : null, request.getStartDate(), false)
+                .with("endDate", request.getEndDate() != null ? SearchOperation.LESS_THAN_OR_EQUAL : null, request.getEndDate(), false);
+
+//        if (StringUtils.hasText(request.getKeyword())) {
+//            builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), false);
+//        }
+//        if (request.getStatus() != null){
+//            builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
+//        }
+//        if (request.getProjectFor() != null){
+//            builder.with("projectFor", SearchOperation.EQUALITY, request.getProjectFor(), false);
+//        }
+//        if (request.getStartDate() != null){
+//            builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
+//        }
+//        if (request.getEndDate() != null){
+//            builder.with("endDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
+//        }
         spec = builder.build();
         if (request.getCategoryId() != null) {
             List<SpecSearchCriteria> prjCriteria = new ArrayList<>();
