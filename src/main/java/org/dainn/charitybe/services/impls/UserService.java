@@ -58,7 +58,7 @@ public class UserService implements IUserService {
                 && checkEmailAndProvider(dto.getEmail(), dto.getProvider())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-        if (dto.getPassword().isBlank()) {
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
             dto.setPassword(userOld.getPassword());
         } else {
             dto.setPassword(encoder.encode(dto.getPassword()));
