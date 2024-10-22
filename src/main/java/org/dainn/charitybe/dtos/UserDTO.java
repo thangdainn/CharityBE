@@ -27,7 +27,7 @@ public class UserDTO extends BaseDTO {
     @JsonIgnore
     private String password;
 
-    private Provider provider;
+    private Provider provider = Provider.LOCAL;
     private Integer status = 1;
 
     @JsonProperty("role_name")

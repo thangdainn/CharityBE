@@ -73,7 +73,7 @@ public class UserService implements IUserService {
     }
 
     private RoleEntity handleRole(String roleName) {
-        if (StringUtils.hasText(roleName)) {
+        if (roleName == null || StringUtils.hasText(roleName)) {
             return roleRepository.findByName(RoleConstant.ROLE_PREFIX + "USER")
                     .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED));
         }
