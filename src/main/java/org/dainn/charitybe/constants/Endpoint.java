@@ -5,6 +5,7 @@ public class Endpoint {
 
     public static final class Auth {
         public static final String BASE = API_PREFIX + "/auth";
+        public static final String ID = "/{id}";
         public static final String LOGIN = "/login";
         public static final String LOGIN_GOOGLE = "/login/oauth2/google";
         public static final String REGISTER = "/register";
@@ -13,7 +14,6 @@ public class Endpoint {
 
     public static final class User {
         public static final String BASE = API_PREFIX + "/users";
-        public static final String ME = "/me";
         public static final String ID = "/{id}";
     }
 
@@ -25,11 +25,6 @@ public class Endpoint {
 
     public static final class Category {
         public static final String BASE = API_PREFIX + "/categories";
-        public static final String ID = "/{id}";
-    }
-
-    public static final class Sponsor {
-        public static final String BASE = API_PREFIX + "/sponsors";
         public static final String ID = "/{id}";
     }
 
@@ -46,6 +41,12 @@ public class Endpoint {
 
     public static final class File {
         public static final String BASE = API_PREFIX + "/upload";
+    }
+
+    public static final class Payment {
+        public static final String BASE = API_PREFIX + "/payment";
+        public static final String VN_PAY = "/vnp";
+        public static final String VN_PAY_CALLBACK = "/vnp-callback";
     }
 
 }

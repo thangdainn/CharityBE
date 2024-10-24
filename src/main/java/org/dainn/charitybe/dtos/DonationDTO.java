@@ -17,12 +17,12 @@ public class DonationDTO extends BaseDTO {
     @NotNull(message = "Amount is required")
     private BigDecimal amount;
 
-    @NotNull(message = "Total remain is required")
-    private BigDecimal totalRemain;
+    private Boolean isPaid;
+
+    private Boolean isAnonymous = false;
 
     @NotNull(message = "Project Id is required")
     private Integer projectId;
 
-    @NotNull(message = "User Id Id is required")
     private Integer userId;
 }

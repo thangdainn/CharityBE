@@ -21,8 +21,14 @@ public class DonationEntity extends BaseEntity {
     @Digits(integer = 20, fraction = 0)
     private BigDecimal amount;
 
+    @Column(name = "is_paid", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isPaid;
+
+    @Column(name = "is_anonymous", nullable = false)
+    private Boolean isAnonymous;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
