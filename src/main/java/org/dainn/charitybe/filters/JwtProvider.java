@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.dainn.charitybe.constants.MessageKey;
 import org.dainn.charitybe.enums.Provider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -68,14 +69,14 @@ public class JwtProvider {
 
     public String extractEmail(String token) {
         if (isTokenExpired(token)) {
-            throw new ExpiredJwtException(null, null, "Token is expired");
+            throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
         }
         return extractClaim(token, Claims::getSubject);
     }
 
     public String extractProvider(String token) {
         if (isTokenExpired(token)) {
-            throw new ExpiredJwtException(null, null, "Token is expired");
+            throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
         }
         return extractClaim(token, claims -> claims.get("provider", String.class));
     }
