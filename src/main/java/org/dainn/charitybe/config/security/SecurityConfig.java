@@ -55,15 +55,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
                                 String.format("%s/auth/**", apiPrefix),
-                                String.format("%s/payment/**", apiPrefix),
-                                String.format("%s/logout", apiPrefix))
+                                String.format("%s/payment/**", apiPrefix)
+                        )
                         .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout
-                                .logoutUrl("/logout")
+                                .logoutUrl(String.format("%s/logout", apiPrefix))
 //                        .addLogoutHandler(logoutHandlerService())
                                 .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))
                 );

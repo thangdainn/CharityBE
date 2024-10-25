@@ -11,6 +11,7 @@ import org.dainn.charitybe.services.IUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAll(@ModelAttribute UserSearch request) {
         if (request.getPage() == null) {
             return ResponseEntity.ok(userService.findAll(request.getStatus()));
@@ -44,12 +45,14 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody UserDTO dto) {
 //        UserDTO dto = userMapper.toDTO(request);
         return ResponseEntity.ok(userService.insert(dto));
     }
 
     @PutMapping(Endpoint.User.ID)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody UserDTO dto) {
         dto.setId(id);
 //        UserDTO dto = userMapper.toDTO(request);
@@ -57,6 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         userService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

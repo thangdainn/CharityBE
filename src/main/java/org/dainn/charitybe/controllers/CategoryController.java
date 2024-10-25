@@ -12,6 +12,7 @@ import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,13 +45,13 @@ public class CategoryController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody CategoryDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.insert(dto));
     }
 
     @PutMapping(Endpoint.Category.ID)
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
                                     @Valid @RequestBody CategoryDTO dto) {
         dto.setId(id);
@@ -58,7 +59,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         categoryService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

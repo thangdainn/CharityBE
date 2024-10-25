@@ -12,6 +12,7 @@ import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAll(@ModelAttribute RoleSearch request) {
         request.setKeyword(ValidateString.trimString(request.getKeyword()));
         if (request.getPage() == null) {
@@ -39,26 +40,26 @@ public class RoleController {
     }
 
     @GetMapping(Endpoint.Role.NAME)
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> get(@PathVariable String name) {
         return ResponseEntity.ok(roleService.findByName(name));
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody RoleDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roleService.insert(dto));
     }
 
     @PutMapping(Endpoint.Role.ID)
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id, @Valid @RequestBody RoleDTO dto) {
         dto.setId(id);
         return ResponseEntity.ok(roleService.update(dto));
     }
 
     @DeleteMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         roleService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
