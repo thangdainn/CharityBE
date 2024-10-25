@@ -3,6 +3,7 @@ package org.dainn.charitybe.config.security;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.filters.JwtAuthenticationFilter;
+import org.dainn.charitybe.services.impls.LogoutHandleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final CustomUserDetailService customUserDetailService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final LogoutHandleService logoutHandleService;
     private final String apiPrefix = Endpoint.API_PREFIX;
 
     @Bean
@@ -36,11 +38,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-//    @Bean
-//    public LogoutHandleService logoutHandlerService() {
-//        return new LogoutHandleService();
-//    }
 
 //    @Bean
 //    public RestTemplate restTemplate() {
@@ -63,9 +60,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout
-                                .logoutUrl(String.format("%s/logout", apiPrefix))
-//                        .addLogoutHandler(logoutHandlerService())
-                                .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))
+                        .logoutUrl(String.format("%s/logout", apiPrefix))
+                        .addLogoutHandler(logoutHandleService)
+                        .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))
                 );
         return http.build();
     }
