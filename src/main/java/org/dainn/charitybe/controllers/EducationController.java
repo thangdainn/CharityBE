@@ -12,6 +12,7 @@ import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,13 +45,13 @@ public class EducationController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody EducationDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(educationService.insert(dto));
     }
 
     @PutMapping(Endpoint.Education.ID)
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
                                     @Valid @RequestBody EducationDTO dto) {
         dto.setId(id);
@@ -58,7 +59,7 @@ public class EducationController {
     }
 
     @DeleteMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         educationService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
