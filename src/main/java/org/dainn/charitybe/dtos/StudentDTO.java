@@ -15,23 +15,21 @@ import java.util.Date;
 @AllArgsConstructor
 public class StudentDTO extends BaseDTO {
 
+    @NotBlank(message = "MSSV is required")
+    @NotNull(message = "MSSV is required")
+    private String mssv;
+
     @NotBlank(message = "Name is required")
     @NotNull(message = "Name is required")
     private String name;
 
-    @NotNull(message = "Day of birth is required")
-    private Date dob;
-
-    @NotBlank(message = "Gender is required")
-    @NotNull(message = "Gender is required")
-    private String gender;
+    @NotBlank(message = "Phone is required")
+    @NotNull(message = "Phone is required")
+    private String phone;
 
     @NotBlank(message = "Address is required")
     @NotNull(message = "Address is required")
     private String address;
 
     private Integer status = 1;
-
-    @NotNull(message = "Education is required")
-    private Integer educationId;
 }

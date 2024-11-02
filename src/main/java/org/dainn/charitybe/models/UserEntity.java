@@ -35,8 +35,15 @@ public class UserEntity extends BaseEntity {
     @Column(name = "provider", nullable = false)
     private Provider provider;
 
-    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    @Column(name = "status")
     private Integer status;
+
+    @PrePersist
+    public void prePersist() {
+        if (status == null) {
+            status = 1;
+        }
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
@@ -46,7 +53,7 @@ public class UserEntity extends BaseEntity {
     private List<TokenEntity> tokens = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<CharityProjectEntity> charityProjects = new ArrayList<>();
+    private List<CampaignEntity> charityProjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<DonationEntity> donations = new ArrayList<>();

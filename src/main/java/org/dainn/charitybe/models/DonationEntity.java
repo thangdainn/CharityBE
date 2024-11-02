@@ -32,6 +32,6 @@ public class DonationEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    private CharityProjectEntity charityProject;
+    @JoinColumn(name = "campaign_id", nullable = false)
+    private CampaignEntity campaign;
 }

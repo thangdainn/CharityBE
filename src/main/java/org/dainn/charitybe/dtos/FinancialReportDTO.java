@@ -21,9 +21,7 @@ public class FinancialReportDTO extends BaseDTO {
     private BigDecimal totalRemain;
 
     @NotNull(message = "Project Id is required")
-    private Integer projectId;
+    private Integer campaignId;
 
     private Integer studentId;
-
-    private Integer educationId;
 }

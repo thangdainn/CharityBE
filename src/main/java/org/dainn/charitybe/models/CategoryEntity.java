@@ -1,9 +1,6 @@
 package org.dainn.charitybe.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +22,17 @@ public class CategoryEntity extends BaseEntity{
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    @PrePersist
+    public void prePersist() {
+        if (status == null) {
+            status = 1;
+        }
+    }
+
+    @Column(name = "status")
     private Integer status;
 
     @OneToMany(mappedBy = "category")
-    private List<CharityProjectEntity> projects = new ArrayList<>();
+    private List<CampaignEntity> projects = new ArrayList<>();
 
 }

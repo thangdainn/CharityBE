@@ -8,7 +8,6 @@ import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IEducationMapper;
 import org.dainn.charitybe.models.EducationEntity;
 import org.dainn.charitybe.repositories.IEducationRepository;
-import org.dainn.charitybe.repositories.IEducationTypeRepository;
 import org.dainn.charitybe.services.IEducationService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,6 @@ import java.util.List;
 
 public class EducationService implements IEducationService {
     private final IEducationRepository educationRepository;
-    private final IEducationTypeRepository educationTypeRepository;
     private final IEducationMapper educationMapper;
 
     @Transactional
@@ -33,8 +31,6 @@ public class EducationService implements IEducationService {
                     throw new AppException(ErrorCode.EDUCATION_EXISTED);
                 });
         EducationEntity entity = educationMapper.toEntity(dto);
-        entity.setEducationType(educationTypeRepository.findById(dto.getTypeId())
-                .orElseThrow(() -> new AppException(ErrorCode.EDUCATION_TYPE_NOT_EXISTED)));
         return educationMapper.toDTO(educationRepository.save(entity));
     }
 
@@ -82,7 +78,7 @@ public class EducationService implements IEducationService {
 
     @Override
     public Page<EducationDTO> findAllByConditions(EducationSearch request) {
-        Page<EducationEntity> page = educationRepository.findAllByConditions(request.getKeyword(), request.getTypeId(), request.getStatus(), Paging.getPageable(request));
+        Page<EducationEntity> page = educationRepository.findAllByConditions(request.getKeyword(), request.getStatus(), Paging.getPageable(request));
         return page.map(educationMapper::toDTO);
     }
 }

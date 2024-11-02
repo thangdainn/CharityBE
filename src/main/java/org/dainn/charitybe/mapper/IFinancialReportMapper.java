@@ -10,8 +10,7 @@ import org.mapstruct.MappingTarget;
 public interface IFinancialReportMapper {
     FinancialReportEntity toEntity(FinancialReportDTO dto);
 
-    @Mapping(target = "projectId", source = "charityProject.id")
-    @Mapping(target = "educationId", source = "education.id")
+    @Mapping(target = "campaignId", source = "campaign.id")
     @Mapping(target = "studentId", source = "student.id")
     FinancialReportDTO toDTO(FinancialReportEntity entity);
 

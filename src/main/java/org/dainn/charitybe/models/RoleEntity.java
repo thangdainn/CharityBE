@@ -1,9 +1,6 @@
 package org.dainn.charitybe.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +20,18 @@ public class RoleEntity extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    @Column(name = "status")
     private Integer status;
+
+    @PrePersist
+    public void prePersist() {
+        if (status == null) {
+            status = 1;
+        }
+    }
 
     @OneToMany(mappedBy = "role")
     private List<UserEntity> users = new ArrayList<>();

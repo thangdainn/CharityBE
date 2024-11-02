@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 public interface IDonationMapper {
     DonationEntity toEntity(DonationDTO dto);
 
-    @Mapping(target = "projectId", source = "charityProject.id")
+    @Mapping(target = "campaignId", source = "campaign.id")
     @Mapping(target = "userId", source = "user.id")
     DonationDTO toDTO(DonationEntity entity);
 

@@ -21,8 +21,8 @@ public class DonationDTO extends BaseDTO {
 
     private Boolean isAnonymous = false;
 
-    @NotNull(message = "Project Id is required")
-    private Integer projectId;
+    @NotNull(message = "Campaign is required")
+    private Integer campaignId;
 
     private Integer userId;
 }
