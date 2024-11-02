@@ -15,14 +15,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomUserDetail implements UserDetails {
-    private String username;
+    private String email;
     private String password;
     private String name;
     private List<GrantedAuthority> authorities;
 
 
     public CustomUserDetail(UserEntity userEntity) {
-        username = userEntity.getEmail();
+        email = userEntity.getEmail();
         password = userEntity.getPassword();
         name = userEntity.getName();
         authorities = List.of(new SimpleGrantedAuthority(userEntity.getRole().getName()));
@@ -39,7 +39,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

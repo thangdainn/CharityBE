@@ -6,8 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.dainn.charitybe.constants.MessageKey;
-import org.dainn.charitybe.enums.Provider;
+import org.dainn.charitybe.models.UserEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtProvider {
 
@@ -27,12 +29,14 @@ public class JwtProvider {
     private String secret;
 
 
-    public String generateToken(String email, Provider provider) {
+    public String generateToken(UserEntity user) {
         Map<String, Object> claims = Map.of(
-                "provider", provider.name()
+                "id", user.getId().toString(),
+                "email", user.getEmail(),
+                "name", user.getName(),
+                "role", user.getRole().getName()
         );
         return Jwts.builder()
-                .setSubject(email)
                 .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new java.util.Date(System.currentTimeMillis() + expiration))
@@ -67,18 +71,11 @@ public class JwtProvider {
         return claimsResolver.apply(claims);
     }
 
-    public String extractEmail(String token) {
+    public Integer extractId(String token) {
         if (isTokenExpired(token)) {
             throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
         }
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public String extractProvider(String token) {
-        if (isTokenExpired(token)) {
-            throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
-        }
-        return extractClaim(token, claims -> claims.get("provider", String.class));
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     public boolean isTokenExpired(String token) {
