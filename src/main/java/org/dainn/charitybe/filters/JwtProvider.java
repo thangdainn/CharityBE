@@ -31,7 +31,7 @@ public class JwtProvider {
 
     public String generateToken(UserEntity user) {
         Map<String, Object> claims = Map.of(
-                "id", user.getId().toString(),
+                "id", user.getId(),
                 "email", user.getEmail(),
                 "name", user.getName(),
                 "role", user.getRole().getName()
@@ -75,7 +75,7 @@ public class JwtProvider {
         if (isTokenExpired(token)) {
             throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
         }
-        return extractClaim(token, claims -> claims.get("id", Integer.class));
+        return Integer.valueOf(extractClaim(token, claims -> claims.get("id", String.class)));
     }
 
     public boolean isTokenExpired(String token) {

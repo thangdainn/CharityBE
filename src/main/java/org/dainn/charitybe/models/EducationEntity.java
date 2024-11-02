@@ -29,17 +29,16 @@ public class EducationEntity extends BaseEntity {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "status", columnDefinition = "DEFAULT 1")
+    @PrePersist
+    public void prePersist() {
+        if (status == null) {
+            status = 1;
+        }
+    }
+    @Column(name = "status")
     private Integer status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id", nullable = false)
-    private EducationTypeEntity educationType;
-
     @OneToMany(mappedBy = "education")
-    private List<StudentEntity> students = new ArrayList<>();
-
-    @OneToMany(mappedBy = "education")
-    private List<FinancialReportEntity> financialReports = new ArrayList<>();
+    private List<CampaignEntity> campaigns = new ArrayList<>();
 
 }

@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dainn.charitybe.enums.ProjectFor;
-import org.dainn.charitybe.enums.ProjectStatus;
+import org.dainn.charitybe.enums.CampaignFor;
+import org.dainn.charitybe.enums.CampaignStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CharityProjectDTO extends BaseDTO {
+public class CampaignDTO extends BaseDTO {
 
     @NotNull(message = "Name is required")
     @NotBlank(message = "Name is required")
@@ -49,10 +49,13 @@ public class CharityProjectDTO extends BaseDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    @NotNull(message = "Project for ?")
-    private ProjectFor projectFor;
+    @NotNull(message = "Campaign for ?")
+    private CampaignFor campaignFor;
 
-    private ProjectStatus status;
+    @NotNull(message = "Education is required")
+    private Integer educationId;
+
+    private CampaignStatus status;
 
     @NotNull(message = "Category is required")
     private Integer categoryId;

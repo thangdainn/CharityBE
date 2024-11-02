@@ -25,6 +25,6 @@ public interface IEducationRepository extends JpaRepository<EducationEntity, Int
     List<EducationEntity> findAllByStatus(Integer status);
     Page<EducationEntity> findAllByStatus(Integer status, Pageable pageable);
 
-    @Query("SELECT r FROM EducationEntity r WHERE (:name IS NULL OR r.name LIKE %:name%) AND (:status IS NULL OR r.status = :status) AND (:typeId IS NULL OR r.educationType.id = :typeId)")
-    Page<EducationEntity> findAllByConditions(@Param("name") String name,@Param("typeId") Integer typeId, @Param("status") Integer status, Pageable pageable);
+    @Query("SELECT r FROM EducationEntity r WHERE (:name IS NULL OR r.name LIKE %:name%) AND (:status IS NULL OR r.status = :status)")
+    Page<EducationEntity> findAllByConditions(@Param("name") String name, @Param("status") Integer status, Pageable pageable);
 }

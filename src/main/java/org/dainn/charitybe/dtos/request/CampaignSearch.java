@@ -3,8 +3,8 @@ package org.dainn.charitybe.dtos.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.dainn.charitybe.enums.ProjectFor;
-import org.dainn.charitybe.enums.ProjectStatus;
+import org.dainn.charitybe.enums.CampaignFor;
+import org.dainn.charitybe.enums.CampaignStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,10 +13,10 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 //@NoArgsConstructor
-public class CharityProjectSearch extends BaseSearch {
-    private ProjectFor projectFor;
+public class CampaignSearch extends BaseSearch {
+    private CampaignFor campaignFor;
     private Integer categoryId;
-    private ProjectStatus status;
+    private CampaignStatus status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;

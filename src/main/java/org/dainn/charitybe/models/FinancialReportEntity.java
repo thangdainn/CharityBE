@@ -25,13 +25,9 @@ public class FinancialReportEntity extends BaseEntity {
     @Digits(integer = 20, fraction = 0)
     private BigDecimal totalRemain;
 
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name = "campaign_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private CharityProjectEntity charityProject;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "education_id")
-    private EducationEntity education;
+    private CampaignEntity campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

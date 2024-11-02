@@ -10,7 +10,6 @@ import org.mapstruct.MappingTarget;
 public interface IStudentMapper {
     StudentEntity toEntity(StudentDTO dto);
 
-    @Mapping(target = "educationId", source = "education.id")
     StudentDTO toDTO(StudentEntity entity);
 
     @Mapping(target = "id", ignore = true)

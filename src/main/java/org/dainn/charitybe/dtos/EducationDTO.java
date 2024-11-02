@@ -1,6 +1,5 @@
 package org.dainn.charitybe.dtos;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,8 +29,4 @@ public class EducationDTO extends BaseDTO{
     private String address;
 
     private Integer status = 1;
-
-    @NotNull(message = "Education type is required")
-    @JsonProperty("type_id")
-    private Integer typeId;
 }

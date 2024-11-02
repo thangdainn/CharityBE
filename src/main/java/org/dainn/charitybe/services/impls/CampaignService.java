@@ -1,19 +1,19 @@
 package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
-import org.dainn.charitybe.dtos.CharityProjectDTO;
-import org.dainn.charitybe.dtos.request.CharityProjectSearch;
+import org.dainn.charitybe.dtos.CampaignDTO;
+import org.dainn.charitybe.dtos.request.CampaignSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
-import org.dainn.charitybe.mapper.ICharityProjectMapper;
-import org.dainn.charitybe.models.CharityProjectEntity;
+import org.dainn.charitybe.mapper.ICampaignMapper;
+import org.dainn.charitybe.models.CampaignEntity;
 import org.dainn.charitybe.repositories.ICategoryRepository;
-import org.dainn.charitybe.repositories.ICharityProjectRepository;
+import org.dainn.charitybe.repositories.ICampaignRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
 import org.dainn.charitybe.repositories.specification.SpecificationBuilder;
-import org.dainn.charitybe.services.IProjectService;
+import org.dainn.charitybe.services.ICampaignService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,16 +29,16 @@ import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
-public class ProjectService implements IProjectService {
-    private final ICharityProjectRepository projectRepository;
+public class CampaignService implements ICampaignService {
+    private final ICampaignRepository projectRepository;
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
-    private final ICharityProjectMapper projectMapper;
+    private final ICampaignMapper projectMapper;
 
     @Transactional
     @Override
-    public CharityProjectDTO insert(CharityProjectDTO dto) {
-        CharityProjectEntity entity = projectMapper.toEntity(dto);
+    public CampaignDTO insert(CampaignDTO dto) {
+        CampaignEntity entity = projectMapper.toEntity(dto);
         setAttributes(entity, dto);
         return projectMapper.toDTO(projectRepository.save(entity));
     }
@@ -46,10 +46,10 @@ public class ProjectService implements IProjectService {
 
     @Transactional
     @Override
-    public CharityProjectDTO update(CharityProjectDTO dto) {
-        CharityProjectEntity old = projectRepository.findById(dto.getId())
+    public CampaignDTO update(CampaignDTO dto) {
+        CampaignEntity old = projectRepository.findById(dto.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_EXISTED));
-        CharityProjectEntity entity = projectMapper.updateEntity(old, dto);
+        CampaignEntity entity = projectMapper.updateEntity(old, dto);
         setAttributes(entity, dto);
         return projectMapper.toDTO(projectRepository.save(entity));
     }
@@ -61,7 +61,7 @@ public class ProjectService implements IProjectService {
         return noSpecialChar.toLowerCase().replaceAll("\\s+", "-");
     }
 
-    private void setAttributes(CharityProjectEntity entity, CharityProjectDTO dto) {
+    private void setAttributes(CampaignEntity entity, CampaignDTO dto) {
         entity.setCode(generateCodeFromName(dto.getName()));
         entity.setUser(userRepository.findById(dto.getCreatedId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
@@ -70,32 +70,32 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public CharityProjectDTO findById(Integer id) {
+    public CampaignDTO findById(Integer id) {
         return projectMapper.toDTO(projectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
-    public CharityProjectDTO findByCode(String code) {
+    public CampaignDTO findByCode(String code) {
         return projectMapper.toDTO(projectRepository.findByCode(code)
                 .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_EXISTED)));
     }
 
     @Override
-    public List<CharityProjectDTO> findAll() {
+    public List<CampaignDTO> findAll() {
         return projectRepository.findAll()
                 .stream().map(projectMapper::toDTO).toList();
     }
 
     @Override
-    public Page<CharityProjectDTO> findAllByFilters(CharityProjectSearch request) {
-        SpecificationBuilder<CharityProjectEntity> builder = new SpecificationBuilder<>();
-        Page<CharityProjectEntity> page;
-        Specification<CharityProjectEntity> spec;
+    public Page<CampaignDTO> findAllByFilters(CampaignSearch request) {
+        SpecificationBuilder<CampaignEntity> builder = new SpecificationBuilder<>();
+        Page<CampaignEntity> page;
+        Specification<CampaignEntity> spec;
 
         builder.with("name", StringUtils.hasText(request.getKeyword()) ? SearchOperation.CONTAINS : null, request.getKeyword(), false)
                 .with("status", request.getStatus() != null ? SearchOperation.EQUALITY : null, request.getStatus(), false)
-                .with("projectFor", request.getProjectFor() != null ? SearchOperation.EQUALITY : null, request.getProjectFor(), false)
+                .with("projectFor", request.getCampaignFor() != null ? SearchOperation.EQUALITY : null, request.getCampaignFor(), false)
                 .with("startDate", request.getStartDate() != null ? SearchOperation.GREATER_THAN_OR_EQUAL : null, request.getStartDate(), false)
                 .with("endDate", request.getEndDate() != null ? SearchOperation.LESS_THAN_OR_EQUAL : null, request.getEndDate(), false);
 
@@ -105,8 +105,8 @@ public class ProjectService implements IProjectService {
 //        if (request.getStatus() != null){
 //            builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
 //        }
-//        if (request.getProjectFor() != null){
-//            builder.with("projectFor", SearchOperation.EQUALITY, request.getProjectFor(), false);
+//        if (request.getCampaignFor() != null){
+//            builder.with("projectFor", SearchOperation.EQUALITY, request.getCampaignFor(), false);
 //        }
 //        if (request.getStartDate() != null){
 //            builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
@@ -118,7 +118,7 @@ public class ProjectService implements IProjectService {
         if (request.getCategoryId() != null) {
             List<SpecSearchCriteria> prjCriteria = new ArrayList<>();
             prjCriteria.add(new SpecSearchCriteria("id", SearchOperation.EQUALITY, request.getCategoryId(), true));
-            Specification<CharityProjectEntity> prjSpec = builder.joinTableWithCondition("category", prjCriteria);
+            Specification<CampaignEntity> prjSpec = builder.joinTableWithCondition("category", prjCriteria);
             spec = Specification.where(spec).and(prjSpec);
         }
         page = projectRepository.findAll(Objects.requireNonNull(spec), Paging.getPageable(request));

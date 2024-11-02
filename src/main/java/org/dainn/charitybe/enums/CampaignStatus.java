@@ -1,6 +1,6 @@
 package org.dainn.charitybe.enums;
 
-public enum ProjectStatus {
+public enum CampaignStatus {
     PENDING,
     APPROVED,
     REJECTED,

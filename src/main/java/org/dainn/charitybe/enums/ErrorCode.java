@@ -23,7 +23,6 @@ public enum ErrorCode {
     EDUCATION_NOT_EXISTED("Education not existed", HttpStatus.NOT_FOUND),
 
     EDUCATION_TYPE_EXISTED("Education type existed", HttpStatus.BAD_REQUEST),
-    EDUCATION_TYPE_NOT_EXISTED("Education type not existed", HttpStatus.NOT_FOUND),
 
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),
