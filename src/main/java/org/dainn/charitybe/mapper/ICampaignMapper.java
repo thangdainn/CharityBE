@@ -1,20 +1,20 @@
 package org.dainn.charitybe.mapper;
 
-import org.dainn.charitybe.dtos.CharityProjectDTO;
-import org.dainn.charitybe.models.CharityProjectEntity;
+import org.dainn.charitybe.dtos.CampaignDTO;
+import org.dainn.charitybe.models.CampaignEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface ICharityProjectMapper {
-    CharityProjectEntity toEntity(CharityProjectDTO dto);
+public interface ICampaignMapper {
+    CampaignEntity toEntity(CampaignDTO dto);
 
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "createdId", source = "user.id")
-    CharityProjectDTO toDTO(CharityProjectEntity entity);
+    CampaignDTO toDTO(CampaignEntity entity);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
-    CharityProjectEntity updateEntity(@MappingTarget CharityProjectEntity entity, CharityProjectDTO dto);
+    CampaignEntity updateEntity(@MappingTarget CampaignEntity entity, CampaignDTO dto);
 }

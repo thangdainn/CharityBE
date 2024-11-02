@@ -1,6 +1,6 @@
 package org.dainn.charitybe.enums;
 
-public enum ProjectFor {
+public enum CampaignFor {
     STUDENT,
     EDUCATION,
 }

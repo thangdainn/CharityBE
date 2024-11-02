@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dainn.charitybe.enums.ProjectFor;
-import org.dainn.charitybe.enums.ProjectStatus;
+import org.dainn.charitybe.enums.CampaignFor;
+import org.dainn.charitybe.enums.CampaignStatus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "charity_projects")
-public class CharityProjectEntity extends BaseEntity {
+@Table(name = "campaigns")
+public class CampaignEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -42,9 +42,9 @@ public class CharityProjectEntity extends BaseEntity {
     @Digits(integer = 20, fraction = 0)
     private BigDecimal currentAmount;
 
-    @Column(name = "project_for", nullable = false)
+    @Column(name = "campaign_for", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProjectFor projectFor;
+    private CampaignFor campaignFor;
 
     @Column(name = "start_date", nullable = false)
     private Date startDate;
@@ -52,9 +52,15 @@ public class CharityProjectEntity extends BaseEntity {
     @Column(name = "end_date", nullable = false)
     private Date endDate;
 
+    @Column(name = "account_number", nullable = false)
+    private String accountNumber;
+
+    @Column(name = "bank_name", nullable = false)
+    private String bankName;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProjectStatus status;
+    private CampaignStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_id")
@@ -64,7 +70,14 @@ public class CharityProjectEntity extends BaseEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany(mappedBy = "charityProject")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "education_id")
+    private EducationEntity education;
+
+    @OneToMany(mappedBy = "campaign")
     private List<DonationEntity> donations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "campaign")
+    private List<FinancialReportEntity> financialReports = new ArrayList<>();
 
 }
