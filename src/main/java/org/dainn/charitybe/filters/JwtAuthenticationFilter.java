@@ -7,7 +7,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.config.security.CustomUserDetailService;
 import org.dainn.charitybe.constants.Endpoint;
-import org.dainn.charitybe.enums.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
@@ -54,10 +53,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-
-            String userName = jwtProvider.extractEmail(jwt);
-            String provider = jwtProvider.extractProvider(jwt);
-            UserDetails userDetails = customUserDetailService.loadUserByUsernameAndProvider(userName, Provider.valueOf(provider));
+            Integer id = jwtProvider.extractId(jwt);
+            UserDetails userDetails = customUserDetailService.loadUserById(id);
             if (userDetails != null) {
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -73,8 +70,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean isByPassToken(@NonNull HttpServletRequest request) {
         final String apiPrefix = Endpoint.API_PREFIX;
         final List<Pair<String, String>> byPassToken = Arrays.asList(
-                Pair.of(String.format("%s/auth/**", apiPrefix), "POST"),
-                Pair.of(String.format("%s/payment/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/auth", apiPrefix), "POST"),
+                Pair.of(String.format("%s/payment", apiPrefix), "GET"),
                 Pair.of(String.format("%s/logout", apiPrefix), "POST")
         );
         for (Pair<String, String> item : byPassToken) {

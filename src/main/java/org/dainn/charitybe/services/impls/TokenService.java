@@ -57,7 +57,7 @@ public class TokenService implements ITokenService {
             tokenRepository.deleteById(tokenEntity.getId());
             throw new AppException(ErrorCode.REFRESH_TOKEN_EXPIRED);
         }
-        String accessToken = jwtProvider.generateToken(tokenEntity.getUser().getEmail(), tokenEntity.getUser().getProvider());
+        String accessToken = jwtProvider.generateToken(tokenEntity.getUser());
         String refreshNewToken = jwtProvider.generateRefreshToken();
         tokenRepository.updateRefreshToken(refreshNewToken, tokenEntity.getId());
         response.addCookie(CookieUtil.createRefreshTokenCookie(refreshNewToken));

@@ -59,7 +59,7 @@ public class AuthService implements IAuthService {
         if (!encoder.matches(request.getPassword(), userEntity.getPassword())) {
             throw new AppException(ErrorCode.PASSWORD_IS_INCORRECT);
         }
-        String accessToken = jwtProvider.generateToken(userEntity.getEmail(), Provider.LOCAL);
+        String accessToken = jwtProvider.generateToken(userEntity);
         String refreshToken = jwtProvider.generateRefreshToken();
         TokenDTO tokenDTO = createTokenDTO(refreshToken, userEntity.getId());
         tokenService.insert(tokenDTO);
@@ -96,7 +96,7 @@ public class AuthService implements IAuthService {
                 userEntity = optional.get();
             }
             userEntity = userRepository.save(userEntity);
-            String accessToken = jwtProvider.generateToken(userEntity.getEmail(), Provider.GOOGLE);
+            String accessToken = jwtProvider.generateToken(userEntity);
             String refreshToken = jwtProvider.generateRefreshToken();
             TokenDTO tokenDTO = createTokenDTO(refreshToken, userEntity.getId());
             tokenService.insert(tokenDTO);
