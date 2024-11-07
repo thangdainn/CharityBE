@@ -4,6 +4,7 @@ import org.dainn.charitybe.models.FinancialReportEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
@@ -13,8 +14,13 @@ import java.util.List;
 
 @Repository
 public interface IFinancialReportRepository extends JpaRepository<FinancialReportEntity, Integer> {
-    List<FinancialReportEntity> findAllByStatus(Integer status);
+    @Modifying
+    @Query("DELETE FROM FinancialReportEntity r WHERE r.id IN :id")
+    void deleteByIdCustom(@Param("ids") Integer id);
 
-    @Query("SELECT r FROM FinancialReportEntity r WHERE (:projectId IS NULL OR r.charityProject.id = :projectId) AND (:studentId IS NULL OR r.student.id = :studentId) AND (:status IS NULL OR r.status  = :status)")
-    Page<FinancialReportEntity> findAllByConditions(@Param("projectId") Integer projectId, @Param("studentId") Integer studentId, @Param("status") Integer status, Pageable pageable);
+    @Query("SELECT r FROM FinancialReportEntity r WHERE r.charityProject.id = :projectId")
+    FinancialReportEntity findByProjectId(@Param("projectId") Integer projectId);
+
+    @Query("SELECT r FROM FinancialReportEntity r WHERE (:projectId IS NULL OR r.charityProject.id = :projectId) AND (:studentId IS NULL OR r.student.id = :studentId)")
+    Page<FinancialReportEntity> findAllByConditions(@Param("projectId") Integer projectId, @Param("studentId") Integer studentId, Pageable pageable);
 }
