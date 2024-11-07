@@ -33,7 +33,7 @@ public class PaymentController {
         else {
             // delete donation
         }
-        response.sendRedirect("http://localhost:4200/order-status?vnp_ResponseCode=" + vnp_ResponseCode);
+        response.sendRedirect("http://localhost:3000/order-status?vnp_ResponseCode=" + vnp_ResponseCode);
 
     }
 }
