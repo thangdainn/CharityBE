@@ -27,6 +27,9 @@ public enum ErrorCode {
     FINANCIAL_REPORT_EXISTED("Financial report existed", HttpStatus.BAD_REQUEST),
     FINANCIAL_REPORT_NOT_EXISTED("Financial report not existed", HttpStatus.NOT_FOUND),
 
+    STUDENT_EXISTED("Student existed", HttpStatus.BAD_REQUEST),
+    STUDENT_NOT_EXISTED("Student not existed", HttpStatus.NOT_FOUND),
+
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),
 

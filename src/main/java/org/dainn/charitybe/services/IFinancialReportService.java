@@ -9,10 +9,10 @@ import java.util.List;
 public interface IFinancialReportService {
     FinancialReportDTO insert(FinancialReportDTO dto);
     FinancialReportDTO update(FinancialReportDTO dto);
-    void delete(Integer id);
+    void delete(List<Integer> ids);
     FinancialReportDTO findById(Integer id);
-    FinancialReportDTO findByProjectId(Integer projectId);
-    FinancialReportDTO findByStudentId(Integer studentId);
-    List<FinancialReportDTO> findAll(Integer status);
+    List<FinancialReportDTO> findByStudentId(Integer studentId);
+    List<FinancialReportDTO> findByCampaignId(Integer campaignId);
+    List<FinancialReportDTO> findAll();
     Page<FinancialReportDTO> findAllByConditions(FinancialReportSearch request);
 }
