@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class FinancialReportSearch extends BaseSearch{
-    private Integer campaignId;
-    private Integer studentId;
+public class StudentSearch extends BaseSearch{
     private Integer status = 1;
+
 }

@@ -53,4 +53,9 @@ public class Endpoint {
         public static final String BASE = API_PREFIX + "/financial-report";
         public static final String ID = "/{id}";
     }
+
+    public static final class Student {
+        public static final String BASE = API_PREFIX + "/students";
+        public static final String ID = "/{id}";
+    }
 }

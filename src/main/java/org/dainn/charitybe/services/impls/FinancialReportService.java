@@ -12,8 +12,8 @@ import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.dainn.charitybe.mapper.IFinancialReportMapper;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,12 +22,14 @@ public class FinancialReportService implements IFinancialReportService {
     private final IFinancialReportRepository financialReportRepository;
     private final IFinancialReportMapper financialReportMapper;
 
+    @Transactional
     @Override
     public FinancialReportDTO insert(FinancialReportDTO dto) {
         FinancialReportEntity entity = financialReportMapper.toEntity(dto);
         return financialReportMapper.toDTO(financialReportRepository.save(entity));
     }
 
+    @Transactional
     @Override
     public FinancialReportDTO update(FinancialReportDTO dto) {
         FinancialReportEntity old = financialReportRepository.findById(dto.getId())
@@ -37,8 +39,8 @@ public class FinancialReportService implements IFinancialReportService {
     }
 
     @Override
-    public void delete(Integer id) {
-        financialReportRepository.deleteByIdCustom(id);
+    public void delete(List<Integer> ids) {
+        financialReportRepository.deleteAllByIdInBatchCustom(ids);
     }
 
     @Override
@@ -48,27 +50,28 @@ public class FinancialReportService implements IFinancialReportService {
                 .orElseThrow(() -> new AppException(ErrorCode.FINANCIAL_REPORT_NOT_EXISTED));
     }
 
+
     @Override
-    public FinancialReportDTO findByProjectId(Integer projectId) {
-        return financialReportRepository.findByProjectId(projectId)
-                .map(financialReportMapper::toDTO)
-                .orElseThrow(() -> new AppException(ErrorCode.FINANCIAL_REPORT_NOT_EXISTED));
+    public List<FinancialReportDTO> findByStudentId(Integer studentId) {
+        return financialReportRepository.findByStudentId(studentId).stream()
+                .map(financialReportMapper::toDTO).toList();
     }
 
     @Override
-    public FinancialReportDTO findByStudentId(Integer studentId) {
-        return null;
+    public List<FinancialReportDTO> findByCampaignId(Integer campaignId) {
+        return financialReportRepository.findByCampaignId(campaignId).stream()
+                .map(financialReportMapper::toDTO).toList();
     }
 
     @Override
-    public List<FinancialReportDTO> findAll(Integer status) {
+    public List<FinancialReportDTO> findAll() {
         return financialReportRepository.findAll().stream()
                 .map(financialReportMapper::toDTO).toList();
     }
 
     @Override
     public Page<FinancialReportDTO> findAllByConditions(FinancialReportSearch request) {
-        Page<FinancialReportEntity> page = financialReportRepository.findAllByConditions(request.getProjectId(), request.getStudentId(), Paging.getPageable(request));
+        Page<FinancialReportEntity> page = financialReportRepository.findAllByConditions(request.getCampaignId() ,request.getStudentId(), Paging.getPageable(request));
         return page.map(financialReportMapper::toDTO);
     }
 }
