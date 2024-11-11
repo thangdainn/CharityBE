@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(Endpoint.Project.BASE)
+@RequestMapping(Endpoint.Campaign.BASE)
 @RequiredArgsConstructor
 public class CampaignController {
     private final ICampaignService projectService;
@@ -31,12 +31,12 @@ public class CampaignController {
         return ResponseEntity.ok(PageResponse.<CampaignDTO>builder()
                 .page(page.getPageable().getPageNumber())
                 .size(page.getPageable().getPageSize())
-                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
                 .data(page.getContent())
                 .build());
     }
 
-    @GetMapping(Endpoint.Project.CODE)
+    @GetMapping(Endpoint.Campaign.CODE)
     public ResponseEntity<?> get( @PathVariable String code) {
         return ResponseEntity.ok(projectService.findByCode(code));
     }
@@ -47,7 +47,7 @@ public class CampaignController {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.insert(dto));
     }
 
-    @PutMapping(Endpoint.Project.ID)
+    @PutMapping(Endpoint.Campaign.ID)
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
                                     @Valid @RequestBody CampaignDTO dto) {

@@ -34,7 +34,7 @@ public class EducationController {
         return ResponseEntity.ok(PageResponse.<EducationDTO>builder()
                 .page(page.getPageable().getPageNumber())
                 .size(page.getPageable().getPageSize())
-                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
                 .data(page.getContent())
                 .build());
     }
