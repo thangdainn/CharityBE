@@ -23,6 +23,7 @@ public interface IFinancialReportRepository extends JpaRepository<FinancialRepor
     @Query("SELECT r FROM FinancialReportEntity r WHERE (:studentId IS NULL OR r.student.id = :studentId)")
     List<FinancialReportEntity> findByStudentId(@Param("studentId") Integer studentId);
 
+
     @Query("SELECT r FROM FinancialReportEntity r WHERE (:campaignId IS NULL OR r.campaign.id = :campaignId) AND (:studentId IS NULL OR r.student.id = :studentId)")
     Page<FinancialReportEntity> findAllByConditions(@Param("campaignId") Integer campaignId, @Param("studentId") Integer studentId, Pageable pageable);
 }

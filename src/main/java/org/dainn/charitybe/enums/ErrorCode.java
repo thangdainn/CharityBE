@@ -29,6 +29,8 @@ public enum ErrorCode {
 
     STUDENT_EXISTED("Student existed", HttpStatus.BAD_REQUEST),
     STUDENT_NOT_EXISTED("Student not existed", HttpStatus.NOT_FOUND),
+    STUDENT_ID_REQUIRED("Student must be set when campaign_for is STUDENT", HttpStatus.BAD_REQUEST),
+    STUDENT_ID_NOT_REQUIRED("Student must be null when campaign_for is not STUDENT", HttpStatus.BAD_REQUEST),
 
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),
