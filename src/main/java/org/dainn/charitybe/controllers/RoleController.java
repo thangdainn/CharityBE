@@ -34,7 +34,7 @@ public class RoleController {
         return ResponseEntity.ok(PageResponse.<RoleDTO>builder()
                 .page(page.getPageable().getPageNumber())
                 .size(page.getPageable().getPageSize())
-                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
                 .data(page.getContent())
                 .build());
     }

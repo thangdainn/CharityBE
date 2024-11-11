@@ -28,7 +28,7 @@ public class Endpoint {
         public static final String ID = "/{id}";
     }
 
-    public static final class Project {
+    public static final class Campaign {
         public static final String BASE = API_PREFIX + "/projects";
         public static final String ID = "/{id}";
         public static final String CODE = "/{code}";
