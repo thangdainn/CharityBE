@@ -7,13 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentDTO extends BaseDTO {
+public class RecipientDTO extends BaseDTO {
 
     @NotBlank(message = "MSSV is required")
     @NotNull(message = "MSSV is required")

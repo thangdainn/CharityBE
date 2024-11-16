@@ -11,7 +11,7 @@ public interface IFinancialReportMapper {
     FinancialReportEntity toEntity(FinancialReportDTO dto);
 
     @Mapping(target = "campaignId", source = "campaign.id")
-    @Mapping(target = "studentId", source = "student.id")
+    @Mapping(target = "recipientId", source = "recipient.id")
     FinancialReportDTO toDTO(FinancialReportEntity entity);
 
     @Mapping(target = "id", ignore = true)

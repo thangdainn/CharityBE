@@ -30,7 +30,7 @@ public class FinancialReportEntity extends BaseEntity {
     private CampaignEntity campaign;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    private StudentEntity student;
+    @JoinColumn(name = "recipient_id")
+    private RecipientEntity recipient;
 
 }

@@ -23,5 +23,5 @@ public class FinancialReportDTO extends BaseDTO {
     @NotNull(message = "Project Id is required")
     private Integer campaignId;
 
-    private Integer studentId;
+    private Integer recipientId;
 }
