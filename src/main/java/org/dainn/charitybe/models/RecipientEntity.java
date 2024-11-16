@@ -15,11 +15,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "students")
-public class StudentEntity extends BaseEntity{
+@Table(name = "recipients")
+public class RecipientEntity extends BaseEntity{
 
-    @Column(name = "mssv", nullable = false)
-    private String mssv;
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -27,20 +27,7 @@ public class StudentEntity extends BaseEntity{
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @Column(name = "status")
-    private Integer status;
-
-    @PrePersist
-    public void prePersist() {
-        if (status == null) {
-            status = 1;
-        }
-    }
-
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "recipient")
     private List<FinancialReportEntity> financialReports = new ArrayList<>();
 
 }
