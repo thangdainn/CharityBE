@@ -34,7 +34,7 @@ public class FinancialReportController {
         return ResponseEntity.ok(PageResponse.<FinancialReportDTO>builder()
                 .page(page.getPageable().getPageNumber())
                 .size(page.getPageable().getPageSize())
-                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
                 .data(page.getContent())
                 .build());
     }

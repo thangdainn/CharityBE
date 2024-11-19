@@ -27,10 +27,10 @@ public enum ErrorCode {
     FINANCIAL_REPORT_EXISTED("Financial report existed", HttpStatus.BAD_REQUEST),
     FINANCIAL_REPORT_NOT_EXISTED("Financial report not existed", HttpStatus.NOT_FOUND),
 
-    STUDENT_EXISTED("Student existed", HttpStatus.BAD_REQUEST),
-    STUDENT_NOT_EXISTED("Student not existed", HttpStatus.NOT_FOUND),
-    STUDENT_ID_REQUIRED("Student must be set when campaign_for is STUDENT", HttpStatus.BAD_REQUEST),
-    STUDENT_ID_NOT_REQUIRED("Student must be null when campaign_for is not STUDENT", HttpStatus.BAD_REQUEST),
+    RECIPIENT_EXISTED("Recipient existed", HttpStatus.BAD_REQUEST),
+    RECIPIENT_NOT_EXISTED("Recipient not existed", HttpStatus.NOT_FOUND),
+    RECIPIENT_ID_REQUIRED("Recipient must be set when campaign_for is Recipient", HttpStatus.BAD_REQUEST),
+    RECIPIENT_ID_NOT_REQUIRED("Recipient must be null when campaign_for is not Recipient", HttpStatus.BAD_REQUEST),
 
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),

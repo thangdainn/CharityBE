@@ -17,13 +17,11 @@ public interface IFinancialReportRepository extends JpaRepository<FinancialRepor
     @Query("DELETE FROM FinancialReportEntity r WHERE r.id IN :ids")
     void deleteAllByIdInBatchCustom(@Param("ids") List<Integer> ids);
 
-    @Query("SELECT r FROM FinancialReportEntity r WHERE r.campaign.id = :campaignId")
-    List<FinancialReportEntity> findByCampaignId(@Param("campaignId") Integer campaignId);
+    List<FinancialReportEntity> findByCampaignId(Integer campaignId);
 
-    @Query("SELECT r FROM FinancialReportEntity r WHERE (:studentId IS NULL OR r.student.id = :studentId)")
-    List<FinancialReportEntity> findByStudentId(@Param("studentId") Integer studentId);
+    List<FinancialReportEntity> findByRecipientId(Integer recipientId);
 
 
-    @Query("SELECT r FROM FinancialReportEntity r WHERE (:campaignId IS NULL OR r.campaign.id = :campaignId) AND (:studentId IS NULL OR r.student.id = :studentId)")
-    Page<FinancialReportEntity> findAllByConditions(@Param("campaignId") Integer campaignId, @Param("studentId") Integer studentId, Pageable pageable);
+    @Query("SELECT r FROM FinancialReportEntity r WHERE (:campaignId IS NULL OR r.campaign.id = :campaignId) AND (:recipientId IS NULL OR r.recipient.id = :recipientId)")
+    Page<FinancialReportEntity> findAllByConditions(@Param("campaignId") Integer campaignId, @Param("recipientId") Integer recipientId, Pageable pageable);
 }

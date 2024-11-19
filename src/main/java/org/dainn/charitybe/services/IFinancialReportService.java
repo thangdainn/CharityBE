@@ -11,7 +11,7 @@ public interface IFinancialReportService {
     FinancialReportDTO update(FinancialReportDTO dto);
     void delete(List<Integer> ids);
     FinancialReportDTO findById(Integer id);
-    List<FinancialReportDTO> findByStudentId(Integer studentId);
+    List<FinancialReportDTO> findByRecipientId(Integer recipientId);
     List<FinancialReportDTO> findByCampaignId(Integer campaignId);
     List<FinancialReportDTO> findAll();
     Page<FinancialReportDTO> findAllByConditions(FinancialReportSearch request);

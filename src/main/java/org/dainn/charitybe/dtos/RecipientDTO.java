@@ -13,9 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RecipientDTO extends BaseDTO {
 
-    @NotBlank(message = "MSSV is required")
-    @NotNull(message = "MSSV is required")
-    private String mssv;
+    @NotBlank(message = "Code is required")
+    @NotNull(message = "Code is required")
+    private String code;
 
     @NotBlank(message = "Name is required")
     @NotNull(message = "Name is required")
@@ -24,10 +24,4 @@ public class RecipientDTO extends BaseDTO {
     @NotBlank(message = "Phone is required")
     @NotNull(message = "Phone is required")
     private String phone;
-
-    @NotBlank(message = "Address is required")
-    @NotNull(message = "Address is required")
-    private String address;
-
-    private Integer status = 1;
 }

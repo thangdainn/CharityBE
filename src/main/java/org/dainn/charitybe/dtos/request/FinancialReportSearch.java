@@ -12,6 +12,6 @@ import lombok.Setter;
 
 public class FinancialReportSearch extends BaseSearch{
     private Integer campaignId;
-    private Integer studentId;
+    private Integer recipientId;
     private Integer status = 1;
 }
