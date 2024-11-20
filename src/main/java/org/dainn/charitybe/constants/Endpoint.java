@@ -49,4 +49,13 @@ public class Endpoint {
         public static final String VN_PAY_CALLBACK = "/vnp-callback";
     }
 
+    public static final class FinancialReport {
+        public static final String BASE = API_PREFIX + "/financial-report";
+        public static final String ID = "/{id}";
+    }
+
+    public static final class Recipient {
+        public static final String BASE = API_PREFIX + "/recipients";
+        public static final String ID = "/{id}";
+    }
 }
