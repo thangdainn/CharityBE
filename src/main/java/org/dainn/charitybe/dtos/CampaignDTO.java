@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dainn.charitybe.enums.CampaignFor;
 import org.dainn.charitybe.enums.CampaignStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,9 +47,6 @@ public class CampaignDTO extends BaseDTO {
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
-
-    @NotNull(message = "Campaign for ?")
-    private CampaignFor campaignFor;
 
     @NotNull(message = "Education is required")
     private Integer educationId;

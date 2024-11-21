@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dainn.charitybe.enums.CampaignFor;
 import org.dainn.charitybe.enums.CampaignStatus;
 
 import java.math.BigDecimal;
@@ -41,10 +40,6 @@ public class CampaignEntity extends BaseEntity {
     @Column(name = "current_amount", nullable = false)
     @Digits(integer = 20, fraction = 0)
     private BigDecimal currentAmount;
-
-    @Column(name = "campaign_for", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private CampaignFor campaignFor;
 
     @Column(name = "start_date", nullable = false)
     private Date startDate;

@@ -117,13 +117,13 @@ public class UserService implements IUserService {
         SpecificationBuilder<UserEntity> builder = new SpecificationBuilder<>();
         Page<UserEntity> page;
         Specification<UserEntity> spec;
+
         if (StringUtils.hasText(request.getKeyword())) {
             builder.with("email", SearchOperation.CONTAINS, request.getKeyword(), true);
             builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), true);
         }
-        if (request.getProvider() != null) {
-            builder.with("provider", SearchOperation.EQUALITY, request.getProvider(), false);
-        }
+
+        builder.with("provider", request.getProvider() != null ? SearchOperation.EQUALITY : null, request.getProvider(), false);
         builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
         spec = builder.build();
         if (request.getRoleId() != null) {
