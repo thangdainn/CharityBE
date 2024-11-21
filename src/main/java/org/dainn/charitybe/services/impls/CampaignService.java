@@ -95,25 +95,9 @@ public class CampaignService implements ICampaignService {
 
         builder.with("name", StringUtils.hasText(request.getKeyword()) ? SearchOperation.CONTAINS : null, request.getKeyword(), false)
                 .with("status", request.getStatus() != null ? SearchOperation.EQUALITY : null, request.getStatus(), false)
-                .with("projectFor", request.getCampaignFor() != null ? SearchOperation.EQUALITY : null, request.getCampaignFor(), false)
                 .with("startDate", request.getStartDate() != null ? SearchOperation.GREATER_THAN_OR_EQUAL : null, request.getStartDate(), false)
                 .with("endDate", request.getEndDate() != null ? SearchOperation.LESS_THAN_OR_EQUAL : null, request.getEndDate(), false);
 
-//        if (StringUtils.hasText(request.getKeyword())) {
-//            builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), false);
-//        }
-//        if (request.getStatus() != null){
-//            builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
-//        }
-//        if (request.getCampaignFor() != null){
-//            builder.with("projectFor", SearchOperation.EQUALITY, request.getCampaignFor(), false);
-//        }
-//        if (request.getStartDate() != null){
-//            builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
-//        }
-//        if (request.getEndDate() != null){
-//            builder.with("endDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
-//        }
         spec = builder.build();
         if (request.getCategoryId() != null) {
             List<SpecSearchCriteria> prjCriteria = new ArrayList<>();
