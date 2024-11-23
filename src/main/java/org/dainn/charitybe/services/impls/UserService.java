@@ -122,8 +122,9 @@ public class UserService implements IUserService {
             builder.with("email", SearchOperation.CONTAINS, request.getKeyword(), true);
             builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), true);
         }
-
-        builder.with("provider", request.getProvider() != null ? SearchOperation.EQUALITY : null, request.getProvider(), false);
+        if (request.getProvider() != null) {
+            builder.with("provider", SearchOperation.EQUALITY, request.getProvider(), false);
+        }
         builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
         spec = builder.build();
         if (request.getRoleId() != null) {
