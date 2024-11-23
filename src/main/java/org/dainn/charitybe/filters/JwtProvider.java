@@ -75,7 +75,7 @@ public class JwtProvider {
         if (isTokenExpired(token)) {
             throw new ExpiredJwtException(null, null, MessageKey.TOKEN_EXPIRED);
         }
-        return Integer.valueOf(extractClaim(token, claims -> claims.get("id", String.class)));
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     public boolean isTokenExpired(String token) {

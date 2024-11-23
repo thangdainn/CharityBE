@@ -4,22 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dainn.charitybe.enums.CampaignStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
-//@NoArgsConstructor
-public class CampaignSearch extends BaseSearch {
-    private Integer categoryId;
-    private CampaignStatus status;
+public class StatisticRequest {
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startDate;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endDate;
+    private Date end;
 }

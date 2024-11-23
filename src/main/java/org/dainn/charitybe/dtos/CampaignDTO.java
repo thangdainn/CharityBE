@@ -1,5 +1,6 @@
 package org.dainn.charitybe.dtos;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -39,14 +40,18 @@ public class CampaignDTO extends BaseDTO {
     private String thumbnail;
 
     @NotNull(message = "Start date is required")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
     @NotNull(message = "End date is required")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    @NotNull(message = "Account number is required")
+    private String accountNumber;
+
+    @NotNull(message = "Bank name is required")
+    private String bankName;
 
     @NotNull(message = "Education is required")
     private Integer educationId;
