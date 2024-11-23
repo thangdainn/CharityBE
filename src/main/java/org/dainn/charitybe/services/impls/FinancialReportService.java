@@ -1,20 +1,19 @@
 package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
-import org.dainn.charitybe.dtos.CampaignDTO;
 import org.dainn.charitybe.dtos.FinancialReportDTO;
 import org.dainn.charitybe.dtos.request.FinancialReportSearch;
-import org.dainn.charitybe.enums.CampaignFor;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
+import org.dainn.charitybe.mapper.IFinancialReportMapper;
 import org.dainn.charitybe.models.FinancialReportEntity;
 import org.dainn.charitybe.repositories.IFinancialReportRepository;
 import org.dainn.charitybe.services.IFinancialReportService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.dainn.charitybe.mapper.IFinancialReportMapper;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -22,12 +21,10 @@ import java.util.List;
 public class FinancialReportService implements IFinancialReportService {
     private final IFinancialReportRepository financialReportRepository;
     private final IFinancialReportMapper financialReportMapper;
-    private final CampaignService campaignService;
 
     @Transactional
     @Override
     public FinancialReportDTO insert(FinancialReportDTO dto) {
-        validateCampaignFor(dto);
         FinancialReportEntity entity = financialReportMapper.toEntity(dto);
         return financialReportMapper.toDTO(financialReportRepository.save(entity));
     }
@@ -35,7 +32,6 @@ public class FinancialReportService implements IFinancialReportService {
     @Transactional
     @Override
     public FinancialReportDTO update(FinancialReportDTO dto) {
-        validateCampaignFor(dto);
         FinancialReportEntity old = financialReportRepository.findById(dto.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.FINANCIAL_REPORT_NOT_EXISTED));
         FinancialReportEntity entity = financialReportMapper.updateEntity(old, dto);
@@ -78,15 +74,5 @@ public class FinancialReportService implements IFinancialReportService {
     public Page<FinancialReportDTO> findAllByConditions(FinancialReportSearch request) {
         Page<FinancialReportEntity> page = financialReportRepository.findAllByConditions(request.getCampaignId() ,request.getRecipientId(), Paging.getPageable(request));
         return page.map(financialReportMapper::toDTO);
-    }
-
-    private void validateCampaignFor(FinancialReportDTO dto) {
-        CampaignDTO campaign = campaignService.findById((dto.getCampaignId()));
-        if (campaign.getCampaignFor() == CampaignFor.STUDENT && dto.getStudentId() == null) {
-            throw new AppException(ErrorCode.STUDENT_ID_REQUIRED);
-        }
-        if (campaign.getCampaignFor() == CampaignFor.STUDENT && dto.getStudentId() != null) {
-            throw new AppException(ErrorCode.STUDENT_ID_NOT_REQUIRED);
-        }
     }
 }

@@ -92,10 +92,9 @@ public class CampaignService implements ICampaignService {
         SpecificationBuilder<CampaignEntity> builder = new SpecificationBuilder<>();
         Page<CampaignEntity> page;
         Specification<CampaignEntity> spec;
+        request.setKeyword(StringUtils.hasText(request.getKeyword()) ? request.getKeyword() : "");
+        builder.with("name", SearchOperation.CONTAINS, request.getKeyword() , false);
 
-        if (StringUtils.hasText(request.getKeyword())) {
-            builder.with("name", SearchOperation.CONTAINS, request.getKeyword(), false);
-        }
         if (request.getStatus() != null){
             builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
         }
