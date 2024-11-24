@@ -36,9 +36,9 @@ public class CampaignController {
                 .build());
     }
 
-    @GetMapping(Endpoint.Campaign.CODE)
-    public ResponseEntity<?> get( @PathVariable String code) {
-        return ResponseEntity.ok(projectService.findByCode(code));
+    @GetMapping(Endpoint.Campaign.ID)
+    public ResponseEntity<?> get( @PathVariable Integer id) {
+        return ResponseEntity.ok(projectService.findById(id));
     }
 
     @PostMapping

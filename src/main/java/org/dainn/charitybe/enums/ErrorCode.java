@@ -35,11 +35,11 @@ public enum ErrorCode {
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXISTED("Category not existed", HttpStatus.NOT_FOUND),
 
-    SPONSOR_EXISTED("Sponsor existed", HttpStatus.BAD_REQUEST),
-    SPONSOR_NOT_EXISTED("Sponsor not existed", HttpStatus.NOT_FOUND),
+    DONATION_EXISTED("Donation existed", HttpStatus.BAD_REQUEST),
+    DONATION_NOT_EXISTED("Donation not existed", HttpStatus.NOT_FOUND),
 
-    PROJECT_EXISTED("Project existed", HttpStatus.BAD_REQUEST),
-    PROJECT_NOT_EXISTED("Project not existed", HttpStatus.NOT_FOUND),
+    CAMPAIGN_EXISTED("Campaign existed", HttpStatus.BAD_REQUEST),
+    CAMPAIGN_NOT_EXISTED("Campaign not existed", HttpStatus.NOT_FOUND),
 
     DONATION_SPONSOR_NOT_EXISTED("donation-sponsor not existed", HttpStatus.NOT_FOUND),
     PRODUCT_SIZE_NOT_EXISTED("product-size not existed", HttpStatus.NOT_FOUND),
