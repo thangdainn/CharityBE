@@ -47,7 +47,6 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody UserDTO dto) {
-//        UserDTO dto = userMapper.toDTO(request);
         return ResponseEntity.ok(userService.insert(dto));
     }
 
@@ -55,7 +54,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody UserDTO dto) {
         dto.setId(id);
-//        UserDTO dto = userMapper.toDTO(request);
         return ResponseEntity.ok(userService.update(dto));
     }
 

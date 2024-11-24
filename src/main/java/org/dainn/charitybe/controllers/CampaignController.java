@@ -42,13 +42,11 @@ public class CampaignController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody CampaignDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.insert(dto));
     }
 
     @PutMapping(Endpoint.Campaign.ID)
-//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
                                     @Valid @RequestBody CampaignDTO dto) {
         dto.setId(id);

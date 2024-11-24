@@ -10,6 +10,7 @@ import org.dainn.charitybe.services.IRecipientService;
 import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.dainn.charitybe.dtos.request.RecipientSearch;
@@ -44,21 +45,12 @@ public class RecipientController {
     }
 
     @PostMapping
-    //PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody RecipientDTO dto) {
         return ResponseEntity.ok(recipientService.insert(dto));
     }
 
-    @PutMapping(Endpoint.Recipient.ID)
-    //PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> update(@Min(1) @PathVariable Integer id,
-                                    @Valid @RequestBody RecipientDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(recipientService.update(dto));
-    }
-
     @DeleteMapping
-    //PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         recipientService.delete(ids);
         return ResponseEntity.ok().build();
