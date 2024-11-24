@@ -48,7 +48,7 @@ public class CampaignService implements ICampaignService {
     @Override
     public CampaignDTO update(CampaignDTO dto) {
         CampaignEntity old = projectRepository.findById(dto.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         CampaignEntity entity = projectMapper.updateEntity(old, dto);
         setAttributes(entity, dto);
         return projectMapper.toDTO(projectRepository.save(entity));
@@ -73,12 +73,6 @@ public class CampaignService implements ICampaignService {
     public CampaignDTO findById(Integer id) {
         return projectMapper.toDTO(projectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
-    }
-
-    @Override
-    public CampaignDTO findByCode(String code) {
-        return projectMapper.toDTO(projectRepository.findByCode(code)
-                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_EXISTED)));
     }
 
     @Override

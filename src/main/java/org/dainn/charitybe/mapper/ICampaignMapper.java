@@ -11,6 +11,7 @@ public interface ICampaignMapper {
     CampaignEntity toEntity(CampaignDTO dto);
 
     @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "categoryName", source = "category.name")
     @Mapping(target = "createdId", source = "user.id")
     @Mapping(target = "educationId", source = "education.id")
     CampaignDTO toDTO(CampaignEntity entity);

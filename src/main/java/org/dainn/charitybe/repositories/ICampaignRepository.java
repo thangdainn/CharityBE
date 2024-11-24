@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public interface ICampaignRepository extends JpaRepository<CampaignEntity, Integer>, JpaSpecificationExecutor<CampaignEntity> {
     Optional<CampaignEntity> findByName(String name);
-    Optional<CampaignEntity> findByCode(String code);
 
     List<CampaignEntity> findAllByStatusAndEndDateBetween(CampaignStatus status, Date start, Date end);
 }
