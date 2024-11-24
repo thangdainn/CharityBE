@@ -1,0 +1,74 @@
+package org.dainn.charitybe.services.impls;
+
+import lombok.RequiredArgsConstructor;
+import org.dainn.charitybe.dtos.DonationDTO;
+import org.dainn.charitybe.dtos.request.DonationSearch;
+import org.dainn.charitybe.enums.ErrorCode;
+import org.dainn.charitybe.exceptions.AppException;
+import org.dainn.charitybe.mapper.IDonationMapper;
+import org.dainn.charitybe.models.DonationEntity;
+import org.dainn.charitybe.repositories.ICampaignRepository;
+import org.dainn.charitybe.repositories.IDonationRepository;
+import org.dainn.charitybe.repositories.IUserRepository;
+import org.dainn.charitybe.services.IDonationService;
+import org.dainn.charitybe.utils.Paging;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+
+public class DonationService implements IDonationService {
+    private final IDonationRepository donationRepository;
+    private final IDonationMapper donationMapper;
+    private final ICampaignRepository campaignRepository;
+    private final IUserRepository userRepository;
+
+    @Transactional
+    @Override
+    public DonationDTO insert(DonationDTO dto) {
+        DonationEntity donation = donationMapper.toEntity(dto);
+        donation.setCampaign(campaignRepository.findById(dto.getCampaignId())
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
+        if (!dto.getIsAnonymous() && dto.getUserId() != null) {
+            donation.setUser(userRepository.findById(dto.getUserId())
+                    .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+        }
+        return donationMapper.toDTO(donationRepository.save(donation));
+    }
+
+    @Transactional
+    @Override
+    public void updateIsPaid(Integer id) {
+        donationRepository.updateIsPaidById(id, true);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Integer id) {
+        donationRepository.deleteById(id);
+    }
+
+    @Override
+    public DonationDTO findById(Integer id) {
+        return donationMapper.toDTO(donationRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.DONATION_NOT_EXISTED)));
+    }
+
+    @Override
+    public Page<DonationDTO> findAllByFilters(DonationSearch request) {
+        Page<DonationEntity> page = new PageImpl<>(List.of());
+        if (request.getCampaignId() != null) {
+            page = donationRepository.findAllByCampaignId(request.getCampaignId(), Paging.getPageable(request));
+        }
+        else if (request.getUserId() != null) {
+            page = donationRepository.findAllByUserId(request.getUserId(), Paging.getPageable(request));
+        }
+        return page.map(donationMapper::toDTO);
+    }
+
+}

@@ -55,8 +55,6 @@ public class CampaignDTO extends BaseDTO {
     @NotNull(message = "Education is required")
     private Integer educationId;
 
-    private EducationDTO education;
-
     private CampaignStatus status;
 
     @NotNull(message = "Category is required")
@@ -66,4 +64,5 @@ public class CampaignDTO extends BaseDTO {
 
     @NotNull(message = "Created by is required")
     private Integer createdId;
+
 }

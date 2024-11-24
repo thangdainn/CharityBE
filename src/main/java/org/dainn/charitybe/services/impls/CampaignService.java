@@ -2,6 +2,7 @@ package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.CampaignDTO;
+import org.dainn.charitybe.dtos.CampaignDetailDTO;
 import org.dainn.charitybe.dtos.request.CampaignSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
@@ -76,8 +77,8 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
-    public CampaignDTO findByCode(String code) {
-        return projectMapper.toDTO(projectRepository.findByCode(code)
+    public CampaignDetailDTO findByCode(String code) {
+        return projectMapper.toDetailDTO(projectRepository.findByCode(code)
                 .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
     }
 

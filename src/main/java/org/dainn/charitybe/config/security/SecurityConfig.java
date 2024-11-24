@@ -6,6 +6,7 @@ import org.dainn.charitybe.filters.JwtAuthenticationFilter;
 import org.dainn.charitybe.services.impls.LogoutHandleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,6 +51,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(HttpMethod.POST, String.format("%s/donations", apiPrefix))
+                        .permitAll()
                         .requestMatchers(
                                 String.format("%s/auth/**", apiPrefix),
                                 String.format("%s/payment/**", apiPrefix)

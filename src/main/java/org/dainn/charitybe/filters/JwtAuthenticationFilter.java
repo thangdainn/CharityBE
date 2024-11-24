@@ -72,7 +72,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final List<Pair<String, String>> byPassToken = Arrays.asList(
                 Pair.of(String.format("%s/auth", apiPrefix), "POST"),
                 Pair.of(String.format("%s/payment", apiPrefix), "GET"),
-                Pair.of(String.format("%s/logout", apiPrefix), "POST")
+                Pair.of(String.format("%s/logout", apiPrefix), "POST"),
+                Pair.of(String.format("%s/donations", apiPrefix), "POST")
         );
         for (Pair<String, String> item : byPassToken) {
             if (request.getRequestURI().contains(item.getFirst()) &&
