@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileController {
     private final ICloudinaryService cloudinaryService;
 
-
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestPart("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cloudinaryService.uploadFile(file));

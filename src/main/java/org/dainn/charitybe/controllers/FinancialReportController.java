@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.dainn.charitybe.utils.ValidateString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,20 +46,12 @@ public class FinancialReportController {
     }
 
     @PostMapping
-    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@RequestBody FinancialReportDTO dto) {
         return ResponseEntity.ok(financialReportService.insert(dto));
     }
 
-    @PutMapping(Endpoint.FinancialReport.ID)
-    // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> update(@Min(1) @PathVariable Integer id, @RequestBody FinancialReportDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(financialReportService.update(dto));
-    }
-
     @DeleteMapping
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@RequestBody List<Integer> ids) {
         financialReportService.delete(ids);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
