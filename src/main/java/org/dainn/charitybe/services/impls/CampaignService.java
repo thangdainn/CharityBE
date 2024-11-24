@@ -72,7 +72,13 @@ public class CampaignService implements ICampaignService {
     @Override
     public CampaignDTO findById(Integer id) {
         return projectMapper.toDTO(projectRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
+    }
+
+    @Override
+    public CampaignDTO findByCode(String code) {
+        return projectMapper.toDTO(projectRepository.findByCode(code)
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
     }
 
     @Override
