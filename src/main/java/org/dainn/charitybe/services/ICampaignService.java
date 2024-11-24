@@ -11,6 +11,7 @@ public interface ICampaignService {
     CampaignDTO insert(CampaignDTO dto);
     CampaignDTO update(CampaignDTO dto);
     CampaignDTO findById(Integer id);
+    CampaignDTO findByCode(String code);
     List<CampaignDTO> findAll();
     Page<CampaignDTO> findAllByFilters(CampaignSearch request);
 }

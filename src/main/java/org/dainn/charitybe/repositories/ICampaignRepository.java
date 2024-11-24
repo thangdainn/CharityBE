@@ -15,4 +15,6 @@ public interface ICampaignRepository extends JpaRepository<CampaignEntity, Integ
     Optional<CampaignEntity> findByName(String name);
 
     List<CampaignEntity> findAllByStatusAndEndDateBetween(CampaignStatus status, Date start, Date end);
+
+    Optional<CampaignEntity> findByCode(String code);
 }
