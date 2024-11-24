@@ -16,7 +16,5 @@ public interface ITokenRepository extends JpaRepository<TokenEntity, Integer> {
     void updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("id") Integer id);
     void deleteByUser_Id(Integer userId);
     Optional<TokenEntity> findByRefreshToken(String refreshToken);
-    Optional<TokenEntity> findByUser_Id(Integer userId);
-
     void deleteByRefreshToken(String refreshToken);
 }

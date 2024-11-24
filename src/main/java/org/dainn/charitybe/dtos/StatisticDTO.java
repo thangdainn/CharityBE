@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatisticDTO {
-    private Integer quantity;
-    private List<CampaignDTO> data = new ArrayList<>();
+    private long totalDonations;
+    private Integer totalCampaigns;
+    private List<StatisticItemDTO> data = new ArrayList<>();
 }

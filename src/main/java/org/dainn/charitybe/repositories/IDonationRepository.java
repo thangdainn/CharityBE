@@ -15,7 +15,7 @@ public interface IDonationRepository extends JpaRepository<DonationEntity, Integ
     @Transactional
     @Query("UPDATE DonationEntity d SET d.isPaid = :isPaid WHERE d.id = :id")
     void updateIsPaidById(Integer id, Boolean isPaid);
-    int countAllByCampaignIdAndIsPaid(Integer campaignId, Boolean isPaid);
+    int countByCampaignIdAndIsPaid(Integer campaignId, Boolean isPaid);
     Page<DonationEntity> findAllByCampaignId(Integer campaignId, Pageable pageable);
     Page<DonationEntity> findAllByUserId(Integer userId, Pageable pageable);
 }
