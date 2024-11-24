@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
+import org.dainn.charitybe.services.IDonationService;
 import org.dainn.charitybe.services.IPaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class PaymentController {
     private final IPaymentService paymentService;
+    private final IDonationService donationService;
 
     @GetMapping(Endpoint.Payment.VN_PAY)
     public ResponseEntity<?> createVNPayPayment(HttpServletRequest request, Integer donationId) {
@@ -26,14 +28,16 @@ public class PaymentController {
 
     @GetMapping(Endpoint.Payment.VN_PAY_CALLBACK)
     public void vnpCallback(@RequestParam String vnp_ResponseCode,
+                            HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
+        Integer donationId = Integer.parseInt(request.getParameter("vnp_TxnRef"));
+
         if (vnp_ResponseCode.equals("00")) {
-            // update donation status paid
+            donationService.updateIsPaid(donationId);
         }
         else {
-            // delete donation
+            donationService.delete(donationId);
         }
-        response.sendRedirect("http://localhost:3000/order-status?vnp_ResponseCode=" + vnp_ResponseCode);
-
+        response.sendRedirect("http://localhost:3000/donation-status?vnp_ResponseCode=" + vnp_ResponseCode);
     }
 }

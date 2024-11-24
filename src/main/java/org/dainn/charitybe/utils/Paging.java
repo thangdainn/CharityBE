@@ -16,4 +16,9 @@ public class Paging {
         }
         return PageRequest.of(request.getPage(), request.getSize(), sort);
     }
+
+    public static Sort getSort(String sortBy, String sortDir) {
+        return StringUtils.hasText(sortBy) ? (sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()) : Sort.unsorted();
+    }
 }

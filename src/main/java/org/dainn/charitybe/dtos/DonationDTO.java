@@ -17,7 +17,10 @@ public class DonationDTO extends BaseDTO {
     @NotNull(message = "Amount is required")
     private BigDecimal amount;
 
-    private Boolean isPaid;
+    @NotNull(message = "Name is required")
+    private String name;
+
+    private Boolean isPaid = false;
 
     private Boolean isAnonymous = false;
 

@@ -21,7 +21,10 @@ public class DonationEntity extends BaseEntity {
     @Digits(integer = 20, fraction = 0)
     private BigDecimal amount;
 
-    @Column(name = "is_paid", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "is_paid", nullable = false)
     private Boolean isPaid;
 
     @Column(name = "is_anonymous", nullable = false)
