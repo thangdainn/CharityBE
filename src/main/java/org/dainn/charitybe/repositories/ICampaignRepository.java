@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ICampaignRepository extends JpaRepository<CampaignEntity, Integer>, JpaSpecificationExecutor<CampaignEntity> {
     Optional<CampaignEntity> findByCode(String code);
+
+    Integer findUserIdById(Integer id);
 }

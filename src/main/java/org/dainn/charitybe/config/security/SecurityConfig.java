@@ -6,7 +6,6 @@ import org.dainn.charitybe.filters.JwtAuthenticationFilter;
 import org.dainn.charitybe.services.impls.LogoutHandleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,23 +38,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, String.format("%s/donations", apiPrefix))
-                        .permitAll()
                         .requestMatchers(
                                 String.format("%s/auth/**", apiPrefix),
-                                String.format("%s/payment/**", apiPrefix)
+                                String.format("%s/payment/**", apiPrefix),
+                                String.format("%s/donations", apiPrefix),
+                                String.format("%s/ws/**", apiPrefix)
                         )
                         .permitAll()
                         .anyRequest().authenticated()

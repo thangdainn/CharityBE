@@ -2,10 +2,13 @@ package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.DonationDTO;
+import org.dainn.charitybe.dtos.notification.Notification;
 import org.dainn.charitybe.dtos.request.DonationSearch;
 import org.dainn.charitybe.enums.ErrorCode;
+import org.dainn.charitybe.enums.NotificationStatus;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IDonationMapper;
+import org.dainn.charitybe.models.CampaignEntity;
 import org.dainn.charitybe.models.DonationEntity;
 import org.dainn.charitybe.repositories.ICampaignRepository;
 import org.dainn.charitybe.repositories.IDonationRepository;
@@ -27,6 +30,7 @@ public class DonationService implements IDonationService {
     private final IDonationMapper donationMapper;
     private final ICampaignRepository campaignRepository;
     private final IUserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     @Override
@@ -45,6 +49,17 @@ public class DonationService implements IDonationService {
     @Override
     public void updateIsPaid(Integer id) {
         donationRepository.updateIsPaidById(id, true);
+        DonationEntity donation = donationRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.DONATION_NOT_EXISTED));
+        CampaignEntity campaign = donation.getCampaign();
+        notificationService.sendNotification(
+                campaign.getUser().getId().toString(),
+                Notification.builder()
+                        .status(NotificationStatus.SUCCESS)
+                        .title(campaign.getName())
+                        .message("You have received a new donation")
+                        .build()
+        );
     }
 
     @Transactional
