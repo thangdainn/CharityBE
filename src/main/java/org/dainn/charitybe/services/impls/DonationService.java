@@ -1,6 +1,7 @@
 package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
+import org.dainn.charitybe.dtos.CampaignDTO;
 import org.dainn.charitybe.dtos.DonationDTO;
 import org.dainn.charitybe.dtos.notification.Notification;
 import org.dainn.charitybe.dtos.request.DonationSearch;
@@ -8,11 +9,11 @@ import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.enums.NotificationStatus;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IDonationMapper;
-import org.dainn.charitybe.models.CampaignEntity;
 import org.dainn.charitybe.models.DonationEntity;
 import org.dainn.charitybe.repositories.ICampaignRepository;
 import org.dainn.charitybe.repositories.IDonationRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
+import org.dainn.charitybe.services.ICampaignService;
 import org.dainn.charitybe.services.IDonationService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ public class DonationService implements IDonationService {
     private final IDonationRepository donationRepository;
     private final IDonationMapper donationMapper;
     private final ICampaignRepository campaignRepository;
+    private final ICampaignService campaignService;
     private final IUserRepository userRepository;
     private final NotificationService notificationService;
 
@@ -51,9 +53,9 @@ public class DonationService implements IDonationService {
         donationRepository.updateIsPaidById(id, true);
         DonationEntity donation = donationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DONATION_NOT_EXISTED));
-        CampaignEntity campaign = donation.getCampaign();
+        CampaignDTO campaign = campaignService.updateCurrentAmount(donation.getAmount(), donation.getCampaign().getId());
         notificationService.sendNotification(
-                campaign.getUser().getId().toString(),
+                campaign.getCreatedId().toString(),
                 Notification.builder()
                         .status(NotificationStatus.SUCCESS)
                         .title(campaign.getName())
