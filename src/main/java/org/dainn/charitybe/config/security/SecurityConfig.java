@@ -47,6 +47,8 @@ public class SecurityConfig {
                                 String.format("%s/auth/**", apiPrefix),
                                 String.format("%s/payment/**", apiPrefix),
                                 String.format("%s/donations", apiPrefix),
+                                String.format("%s/categories/**", apiPrefix),
+                                String.format("%s/campaigns/**", apiPrefix),
                                 String.format("%s/ws/**", apiPrefix)
                         )
                         .permitAll()

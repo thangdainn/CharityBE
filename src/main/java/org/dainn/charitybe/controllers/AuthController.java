@@ -3,7 +3,6 @@ package org.dainn.charitybe.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.dtos.auth.UserLogin;
@@ -22,9 +21,9 @@ public class AuthController {
     private final IUserService userService;
     private final ITokenService tokenService;
 
-    @GetMapping(Endpoint.Auth.ID)
-    public ResponseEntity<?> getById(@Min(1) @PathVariable Integer id) {
-        return ResponseEntity.ok(userService.findById(id));
+    @GetMapping(Endpoint.Auth.ME)
+    public ResponseEntity<?> getById(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getMyInfo(request));
     }
 
     @PostMapping(Endpoint.Auth.LOGIN)

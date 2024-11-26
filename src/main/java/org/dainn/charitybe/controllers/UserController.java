@@ -40,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping(Endpoint.User.ID)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> get(@Min(1) @PathVariable Integer id) {
         return ResponseEntity.ok(userService.findById(id));
     }
