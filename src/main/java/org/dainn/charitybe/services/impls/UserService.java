@@ -1,5 +1,6 @@
 package org.dainn.charitybe.services.impls;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.RoleConstant;
 import org.dainn.charitybe.dtos.UserDTO;
@@ -7,6 +8,7 @@ import org.dainn.charitybe.dtos.request.UserSearch;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.enums.Provider;
 import org.dainn.charitybe.exceptions.AppException;
+import org.dainn.charitybe.filters.JwtProvider;
 import org.dainn.charitybe.mapper.IUserMapper;
 import org.dainn.charitybe.models.RoleEntity;
 import org.dainn.charitybe.models.UserEntity;
@@ -19,6 +21,7 @@ import org.dainn.charitybe.services.IUserService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +38,7 @@ public class UserService implements IUserService {
     private final IUserRepository userRepository;
     private final IUserMapper userMapper;
     private final IRoleRepository roleRepository;
+    private final JwtProvider jwtProvider;
 
     @Transactional
     @Override
@@ -94,11 +98,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO findByEmailAndProvider(String email, Provider provider) {
-        return userMapper.toDTO(userRepository.findByEmailAndProviderAndStatus(email, provider, 1)
+    public UserDTO getMyInfo(HttpServletRequest request) {
+        String jwt = getJwtFromRequest(request);
+        if (!StringUtils.hasText(jwt) || !jwtProvider.validateToken(jwt)) {
+            throw new AppException(ErrorCode.INVALID_TOKEN);
+        }
+        Integer id = jwtProvider.extractId(jwt);
+        return userMapper.toDTO(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
 
     @Override
     public List<UserDTO> findAll() {

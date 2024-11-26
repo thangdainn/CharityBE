@@ -6,11 +6,13 @@ import org.dainn.charitybe.dtos.CampaignDetailDTO;
 import org.dainn.charitybe.dtos.request.CampaignSearch;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ICampaignService {
     CampaignDTO insert(CampaignDTO dto);
     CampaignDTO update(CampaignDTO dto);
+    CampaignDTO updateCurrentAmount(BigDecimal amount, Integer id);
     CampaignDTO findById(Integer id);
     CampaignDetailDTO findByCode(String code);
     List<CampaignDTO> findAll();

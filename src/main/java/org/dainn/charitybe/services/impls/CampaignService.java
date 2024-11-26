@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.CampaignDTO;
 import org.dainn.charitybe.dtos.CampaignDetailDTO;
 import org.dainn.charitybe.dtos.request.CampaignSearch;
+import org.dainn.charitybe.enums.CampaignStatus;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.ICampaignMapper;
 import org.dainn.charitybe.models.CampaignEntity;
-import org.dainn.charitybe.repositories.ICategoryRepository;
 import org.dainn.charitybe.repositories.ICampaignRepository;
+import org.dainn.charitybe.repositories.ICategoryRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,18 @@ public class CampaignService implements ICampaignService {
                 .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         CampaignEntity entity = projectMapper.updateEntity(old, dto);
         setAttributes(entity, dto);
+        return projectMapper.toDTO(projectRepository.save(entity));
+    }
+
+    @Transactional
+    @Override
+    public CampaignDTO updateCurrentAmount(BigDecimal amount, Integer id) {
+        CampaignEntity entity = projectRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        entity.setCurrentAmount(entity.getCurrentAmount().add(amount));
+        if (entity.getCurrentAmount().compareTo(entity.getTargetAmount()) >= 0) {
+            entity.setStatus(CampaignStatus.COMPLETED);
+        }
         return projectMapper.toDTO(projectRepository.save(entity));
     }
 
