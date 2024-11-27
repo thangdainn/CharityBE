@@ -58,6 +58,7 @@ public class Endpoint {
     public static final class Recipient {
         public static final String BASE = API_PREFIX + "/recipients";
         public static final String ID = "/{id}";
+        public static final String CODE = "/{code}";
     }
 
     public static final class Statistic {

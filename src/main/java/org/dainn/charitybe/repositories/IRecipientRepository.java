@@ -23,6 +23,6 @@ public interface IRecipientRepository extends JpaRepository<RecipientEntity, Int
     Optional<RecipientEntity> findByName(String name);
     Optional<RecipientEntity> findByCode(String code);
 
-    @Query("SELECT r FROM RecipientEntity r WHERE (:name IS NULL OR r.name LIKE %:name%)")
-    Page<RecipientEntity> findAllByConditions(String name, Pageable pageable);
+    @Query("SELECT r FROM RecipientEntity r WHERE (:code IS NULL OR r.code LIKE %:code%)")
+    Page<RecipientEntity> findAllByConditions(String code, Pageable pageable);
 }
