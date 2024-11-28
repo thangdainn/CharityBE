@@ -55,7 +55,7 @@ public class CampaignDTO extends BaseDTO {
     @NotNull(message = "Education is required")
     private Integer educationId;
 
-    private CampaignStatus status;
+    private CampaignStatus status = CampaignStatus.PENDING;
 
     @NotNull(message = "Category is required")
     private Integer categoryId;

@@ -32,6 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
             user.setRole(roleRepository.findById(user.getRole().getId())
                     .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED)
             ));
+
             return new CustomUserDetail(user);
         } else {
             return new CustomUserDetail("", "", "", new ArrayList<>());

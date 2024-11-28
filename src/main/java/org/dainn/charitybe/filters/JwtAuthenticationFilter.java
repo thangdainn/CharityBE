@@ -73,8 +73,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/auth", apiPrefix), "POST"),
                 Pair.of(String.format("%s/payment", apiPrefix), "GET"),
                 Pair.of(String.format("%s/logout", apiPrefix), "POST"),
-                Pair.of(String.format("%s/api/campaigns", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/categories", apiPrefix), "GET"),
+                Pair.of(String.format("%s/campaigns", apiPrefix), "GET"),
+                Pair.of(String.format("%s/categories", apiPrefix), "GET"),
                 Pair.of(String.format("%s/donations", apiPrefix), "POST"),
                 Pair.of(String.format("%s/ws", apiPrefix), "GET")
         );
