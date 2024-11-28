@@ -5,5 +5,5 @@ import org.dainn.charitybe.dtos.request.StatisticRequest;
 
 public interface IStatisticService {
     StatisticDTO findCampaignStatistic(StatisticRequest request);
-
+    byte[] generateStatisticExcel(StatisticRequest request);
 }

@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StatisticItemDTO {
     private CampaignDTO campaigns;
+    private String owner;
     private Integer totalDonations;
 }

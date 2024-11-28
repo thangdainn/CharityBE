@@ -9,12 +9,14 @@ import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.enums.NotificationStatus;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IDonationMapper;
+import org.dainn.charitybe.models.CampaignEntity;
 import org.dainn.charitybe.models.DonationEntity;
 import org.dainn.charitybe.repositories.ICampaignRepository;
 import org.dainn.charitybe.repositories.IDonationRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.services.ICampaignService;
 import org.dainn.charitybe.services.IDonationService;
+import org.dainn.charitybe.services.IExcelService;
 import org.dainn.charitybe.utils.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,6 +35,7 @@ public class DonationService implements IDonationService {
     private final ICampaignService campaignService;
     private final IUserRepository userRepository;
     private final NotificationService notificationService;
+    private final IExcelService excelService;
 
     @Transactional
     @Override
@@ -88,4 +91,12 @@ public class DonationService implements IDonationService {
         return page.map(donationMapper::toDTO);
     }
 
+    @Override
+    public byte[] exportDonationsByCampaignId(Integer campaignId) {
+        CampaignEntity campaign = campaignRepository.findById(campaignId)
+                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        List<DonationDTO> donations = donationRepository.findAllByCampaignIdAndIsPaid(campaignId, true)
+                .stream().map(donationMapper::toDTO).toList();
+        return excelService.generateDonationExcel(donations, campaign.getName());
+    }
 }

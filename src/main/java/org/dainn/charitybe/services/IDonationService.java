@@ -12,4 +12,6 @@ public interface IDonationService {
     DonationDTO findById(Integer id);
 
     Page<DonationDTO> findAllByFilters(DonationSearch request);
+
+    byte[] exportDonationsByCampaignId(Integer campaignId);
 }

@@ -83,17 +83,21 @@ public class AuthService implements IAuthService {
             GoogleIdToken.Payload payload = idToken.getPayload();
             String email = payload.getEmail();
             String name = (String) payload.get("name");
+            String avatar = (String) payload.get("picture");
             Optional<UserEntity> optional = userRepository.findByEmailAndProviderAndStatus(email, Provider.GOOGLE, 1);
             UserEntity userEntity = new UserEntity();
             if (optional.isEmpty()) {
                 userEntity.setEmail(email);
                 userEntity.setName(name);
+                userEntity.setAvatar(avatar);
                 userEntity.setPassword(encoder.encode("dainn"));
                 userEntity.setProvider(Provider.GOOGLE);
                 userEntity.setRole(roleRepository.findByName(RoleConstant.ROLE_PREFIX + "USER")
                         .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED)));
             } else {
                 userEntity = optional.get();
+                userEntity.setName(name);
+                userEntity.setAvatar(avatar);
             }
             userEntity = userRepository.save(userEntity);
             String accessToken = jwtProvider.generateToken(userEntity);
