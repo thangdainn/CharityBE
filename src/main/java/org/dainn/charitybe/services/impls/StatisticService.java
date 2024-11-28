@@ -1,7 +1,6 @@
 package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
-import org.dainn.charitybe.dtos.CampaignDTO;
 import org.dainn.charitybe.dtos.StatisticDTO;
 import org.dainn.charitybe.dtos.StatisticItemDTO;
 import org.dainn.charitybe.dtos.request.StatisticRequest;
@@ -27,6 +26,7 @@ public class StatisticService implements IStatisticService {
     private final ICampaignRepository campaignRepository;
     private final IDonationRepository donationRepository;
     private final ICampaignMapper campaignMapper;
+    private final ExcelService excelService;
     @Override
     public StatisticDTO findCampaignStatistic(StatisticRequest request) {
         SpecificationBuilder<CampaignEntity> builder = new SpecificationBuilder<>();
@@ -43,20 +43,27 @@ public class StatisticService implements IStatisticService {
             Specification<CampaignEntity> prjSpec = builder.joinTableWithCondition("category", prjCriteria);
             spec = Specification.where(spec).and(prjSpec);
         }
-        campaigns = campaignRepository.findAll(Objects.requireNonNull(spec), Paging.getSort("startDate", "desc"));
-        List<CampaignDTO> campaignDTOs = campaigns.stream().map(campaignMapper::toDTO).toList();
+        campaigns = campaignRepository.findAll(Objects.requireNonNull(spec), Paging.getSort("startDate", "asc"));
+//        List<CampaignDTO> campaignDTOs = campaigns.stream().map(campaignMapper::toDTO).toList();
 
         StatisticDTO statisticDTO = new StatisticDTO();
         long totalDonations = 0;
         statisticDTO.setTotalCampaigns(campaigns.size());
-        for (CampaignDTO campaign : campaignDTOs) {
+        for (CampaignEntity campaign : campaigns) {
             StatisticItemDTO item = new StatisticItemDTO();
+            item.setOwner(campaign.getUser().getName());
             item.setTotalDonations(donationRepository.countByCampaignIdAndIsPaid(campaign.getId(), true));
-            item.setCampaigns(campaign);
+            item.setCampaigns(campaignMapper.toDTO(campaign));
             totalDonations += item.getTotalDonations();
             statisticDTO.getData().add(item);
         }
         statisticDTO.setTotalDonations(totalDonations);
         return statisticDTO;
+    }
+
+    @Override
+    public byte[] generateStatisticExcel(StatisticRequest request) {
+        StatisticDTO data = findCampaignStatistic(request);
+        return excelService.generateStatisticExcel(data, request.getStartDate(), request.getEndDate());
     }
 }

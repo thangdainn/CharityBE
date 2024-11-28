@@ -64,9 +64,11 @@ public class Endpoint {
     public static final class Statistic {
         public static final String BASE = API_PREFIX + "/statistics";
         public static final String CAMPAIGN = "/campaign";
+        public static final String EXPORT = "/export";
     }
 
     public static final class Donation {
         public static final String BASE = API_PREFIX + "/donations";
+        public static final String EXPORT = "/export/{campaignId}";
     }
 }
