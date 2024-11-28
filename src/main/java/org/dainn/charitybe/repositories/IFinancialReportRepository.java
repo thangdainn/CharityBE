@@ -8,13 +8,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
 public interface IFinancialReportRepository extends JpaRepository<FinancialReportEntity, Integer> {
     @Modifying
-    @Query("DELETE FROM FinancialReportEntity r WHERE r.id IN :ids")
+    @Transactional
+    @Query("DELETE FinancialReportEntity r WHERE r.id IN :ids")
     void deleteAllByIdInBatchCustom(@Param("ids") List<Integer> ids);
 
     List<FinancialReportEntity> findByCampaignId(Integer campaignId);
