@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.config.vnpay.VNPayConfig;
 import org.dainn.charitybe.dtos.PaymentDTO;
 import org.dainn.charitybe.services.IPaymentService;
-import org.dainn.charitybe.utils.VNPayUtil;
+import org.dainn.charitybe.config.vnpay.VNPayUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

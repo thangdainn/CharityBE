@@ -11,6 +11,7 @@ import org.dainn.charitybe.mapper.ICampaignMapper;
 import org.dainn.charitybe.models.CampaignEntity;
 import org.dainn.charitybe.repositories.ICampaignRepository;
 import org.dainn.charitybe.repositories.ICategoryRepository;
+import org.dainn.charitybe.repositories.IDonationRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
@@ -36,6 +37,7 @@ public class CampaignService implements ICampaignService {
     private final ICampaignRepository projectRepository;
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
+    private final IDonationRepository donationRepository;
     private final ICampaignMapper projectMapper;
 
     @Transactional
@@ -127,6 +129,11 @@ public class CampaignService implements ICampaignService {
             spec = Specification.where(spec).and(prjSpec);
         }
         page = projectRepository.findAll(Objects.requireNonNull(spec), Paging.getPageable(request));
-        return page.map(projectMapper::toDTO);
+
+        return page.map(campaign -> {
+            CampaignDTO dto = projectMapper.toDTO(campaign);
+            dto.setTotalDonation(donationRepository.countByCampaignIdAndIsPaid(campaign.getId(), true));
+            return dto;
+        });
     }
 }
