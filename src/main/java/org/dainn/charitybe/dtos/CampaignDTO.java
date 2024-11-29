@@ -65,4 +65,6 @@ public class CampaignDTO extends BaseDTO {
     @NotNull(message = "Created by is required")
     private Integer createdId;
 
+    private Integer totalDonation;
+
 }
