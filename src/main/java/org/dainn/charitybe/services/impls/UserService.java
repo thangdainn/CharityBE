@@ -47,6 +47,9 @@ public class UserService implements IUserService {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
         UserEntity userEntity = userMapper.toEntity(dto);
+        if (userEntity.getAvatar() == null){
+            userEntity.setAvatar("http://res.cloudinary.com/dciqj149d/image/upload/v1732863129/t06zenirufnu1kplycu1.png");
+        }
         userEntity.setPassword(encoder.encode(dto.getPassword()));
         userEntity.setRole(handleRole(dto.getRoleName()));
         return userMapper.toDTO(userRepository.save(userEntity));
