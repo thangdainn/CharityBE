@@ -38,6 +38,11 @@ public class DonationController {
                 .body(donationService.exportDonationsByCampaignId(campaignId));
     }
 
+    @GetMapping(Endpoint.Donation.CAMPAIGN)
+    public ResponseEntity<?> getByCampaign(@PathVariable Integer campaignId) {
+        return ResponseEntity.ok(donationService.findByCampaignId(campaignId));
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody DonationDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(donationService.insert(dto));

@@ -75,5 +75,8 @@ public class Endpoint {
     public static final class Donation {
         public static final String BASE = API_PREFIX + "/donations";
         public static final String EXPORT = "/export/{campaignId}";
+        public static final String CAMPAIGN = "/campaign/{campaignId}";
+
+
     }
 }
