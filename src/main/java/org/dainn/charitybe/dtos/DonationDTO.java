@@ -27,5 +27,8 @@ public class DonationDTO extends BaseDTO {
     @NotNull(message = "Campaign is required")
     private Integer campaignId;
 
+    private String campaignCode;
+    private String campaignName;
+
     private Integer userId;
 }

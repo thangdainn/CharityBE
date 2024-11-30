@@ -12,6 +12,8 @@ public interface IDonationMapper {
 
     @Mapping(target = "campaignId", source = "campaign.id")
     @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "campaignCode", source = "campaign.code")
+    @Mapping(target = "campaignName", source = "campaign.name")
     DonationDTO toDTO(DonationEntity entity);
 
     @Mapping(target = "id", ignore = true)

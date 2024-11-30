@@ -9,10 +9,7 @@ import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.ICampaignMapper;
 import org.dainn.charitybe.models.CampaignEntity;
-import org.dainn.charitybe.repositories.ICampaignRepository;
-import org.dainn.charitybe.repositories.ICategoryRepository;
-import org.dainn.charitybe.repositories.IDonationRepository;
-import org.dainn.charitybe.repositories.IUserRepository;
+import org.dainn.charitybe.repositories.*;
 import org.dainn.charitybe.repositories.specification.SearchOperation;
 import org.dainn.charitybe.repositories.specification.SpecSearchCriteria;
 import org.dainn.charitybe.repositories.specification.SpecificationBuilder;
@@ -38,6 +35,7 @@ public class CampaignService implements ICampaignService {
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
     private final IDonationRepository donationRepository;
+    private final IEducationRepository educationRepository;
     private final ICampaignMapper projectMapper;
 
     @Transactional
@@ -84,6 +82,8 @@ public class CampaignService implements ICampaignService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
         entity.setCategory(categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTED)));
+        entity.setEducation(educationRepository.findById(dto.getEducationId())
+                .orElseThrow(() -> new AppException(ErrorCode.EDUCATION_NOT_EXISTED)));
     }
 
     @Override
