@@ -47,7 +47,10 @@ public class Endpoint {
     public static final class Payment {
         public static final String BASE = API_PREFIX + "/payment";
         public static final String VN_PAY = "/vnp";
+        public static final String MOMO = "/momo";
         public static final String VN_PAY_CALLBACK = "/vnp-callback";
+        public static final String MOMO_CALLBACK = "/momo-callback";
+
     }
 
     public static final class FinancialReport {
