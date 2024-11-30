@@ -80,6 +80,12 @@ public class DonationService implements IDonationService {
     }
 
     @Override
+    public List<DonationDTO> findByCampaignId(Integer campaignId) {
+        return donationRepository.findAllByCampaignId(campaignId)
+                .stream().map(donationMapper::toDTO).toList();
+    }
+
+    @Override
     public Page<DonationDTO> findAllByFilters(DonationSearch request) {
         Page<DonationEntity> page = new PageImpl<>(List.of());
         if (request.getCampaignId() != null) {
