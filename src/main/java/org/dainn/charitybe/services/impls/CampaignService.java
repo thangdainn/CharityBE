@@ -69,6 +69,12 @@ public class CampaignService implements ICampaignService {
         return projectMapper.toDTO(projectRepository.save(entity));
     }
 
+    @Override
+    public List<CampaignDTO> findByUserId(Integer userId) {
+        return projectRepository.findAllByUserId(userId)
+                .stream().map(projectMapper::toDTO).toList();
+    }
+
     private String generateCodeFromName(String name) {
         String noAccent = Normalizer.normalize(name, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
