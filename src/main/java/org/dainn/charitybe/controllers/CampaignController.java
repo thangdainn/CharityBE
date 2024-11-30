@@ -41,6 +41,11 @@ public class CampaignController {
         return ResponseEntity.ok(projectService.findByCode(code));
     }
 
+    @GetMapping(Endpoint.Campaign.USER)
+    public ResponseEntity<?> getByUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(projectService.findByUserId(userId));
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CampaignDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.insert(dto));
