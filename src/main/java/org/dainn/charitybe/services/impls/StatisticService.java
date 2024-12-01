@@ -37,7 +37,7 @@ public class StatisticService implements IStatisticService {
         builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
         builder.with("startDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
         spec = builder.build();
-        if (request.getCategoryId() != null) {
+        if (request.getCategoryId() != null && !request.getCategoryId().equals(0)) {
             List<SpecSearchCriteria> prjCriteria = new ArrayList<>();
             prjCriteria.add(new SpecSearchCriteria("id", SearchOperation.EQUALITY, request.getCategoryId(), true));
             Specification<CampaignEntity> prjSpec = builder.joinTableWithCondition("category", prjCriteria);

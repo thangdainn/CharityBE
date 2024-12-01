@@ -81,13 +81,15 @@ public class DonationService implements IDonationService {
 
     @Override
     public List<DonationDTO> findByCampaignId(Integer campaignId) {
-        return donationRepository.findAllByCampaignId(campaignId)
+        return donationRepository.findAllByCampaignId(campaignId, Paging.getSort("createdDate", "desc"))
                 .stream().map(donationMapper::toDTO).toList();
     }
 
     @Override
     public Page<DonationDTO> findAllByFilters(DonationSearch request) {
         Page<DonationEntity> page = new PageImpl<>(List.of());
+        request.setSortBy("createdDate");
+        request.setSortDir("desc");
         if (request.getCampaignId() != null) {
             page = donationRepository.findAllByCampaignId(request.getCampaignId(), Paging.getPageable(request));
         }
