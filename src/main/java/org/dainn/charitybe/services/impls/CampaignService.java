@@ -112,21 +112,24 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public Page<CampaignDTO> findAllByFilters(CampaignSearch request) {
+        request.setSortBy("startDate");
+        request.setSortDir("desc");
         SpecificationBuilder<CampaignEntity> builder = new SpecificationBuilder<>();
         Page<CampaignEntity> page;
         Specification<CampaignEntity> spec;
         request.setKeyword(StringUtils.hasText(request.getKeyword()) ? request.getKeyword() : "");
         builder.with("name", SearchOperation.CONTAINS, request.getKeyword() , false);
 
-        if (request.getStatus() != null){
-            builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
-        }
         if (request.getStartDate() != null){
             builder.with("startDate", SearchOperation.GREATER_THAN_OR_EQUAL, request.getStartDate(), false);
         }
         if (request.getEndDate() != null){
             builder.with("endDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
         }
+        builder.with("status", SearchOperation.NEGATION, CampaignStatus.REJECTED, false);
+        builder.with("status", SearchOperation.NEGATION, CampaignStatus.PENDING, false);
+
+
         spec = builder.build();
         if (request.getCategoryId() != null) {
             List<SpecSearchCriteria> prjCriteria = new ArrayList<>();

@@ -3,6 +3,7 @@ package org.dainn.charitybe.repositories;
 import org.dainn.charitybe.models.DonationEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,5 @@ public interface IDonationRepository extends JpaRepository<DonationEntity, Integ
     Page<DonationEntity> findAllByUserId(Integer userId, Pageable pageable);
     List<DonationEntity> findAllByCampaignIdAndIsPaid(Integer campaignId, Boolean isPaid);
 
-    List<DonationEntity> findAllByCampaignId(Integer campaignId);
+    List<DonationEntity> findAllByCampaignId(Integer campaignId, Sort sort);
 }
