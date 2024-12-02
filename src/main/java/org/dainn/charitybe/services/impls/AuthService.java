@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.RoleConstant;
+import org.dainn.charitybe.dtos.MailData;
 import org.dainn.charitybe.dtos.TokenDTO;
 import org.dainn.charitybe.dtos.UserDTO;
 import org.dainn.charitybe.dtos.auth.UserLogin;
@@ -22,6 +23,7 @@ import org.dainn.charitybe.models.UserEntity;
 import org.dainn.charitybe.repositories.IRoleRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.services.IAuthService;
+import org.dainn.charitybe.services.IEmailService;
 import org.dainn.charitybe.services.ITokenService;
 import org.dainn.charitybe.services.IUserService;
 import org.dainn.charitybe.utils.CookieUtil;
@@ -34,6 +36,7 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +48,7 @@ public class AuthService implements IAuthService {
     private final PasswordEncoder encoder;
     private final JwtProvider jwtProvider;
     private final IUserMapper userMapper;
+    private final IEmailService emailService;
 
     @Value("${jwt.refresh.expiration}")
     private Long expirationRefresh;
@@ -109,6 +113,33 @@ public class AuthService implements IAuthService {
         } catch (Exception e) {
             throw new AppException(ErrorCode.GOOGLE_LOGIN_FAILED);
         }
+    }
+
+    @Override
+    public void forgotPassword(String email) {
+        UserEntity userEntity = userRepository.findByEmailAndProviderAndStatus(email, Provider.LOCAL, 1)
+                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_IS_INCORRECT));
+        String newPassword = generatePassword();
+        userEntity.setPassword(encoder.encode(newPassword));
+        userRepository.save(userEntity);
+        MailData mailData = MailData.builder()
+                .to(email)
+                .subject("Forgot password")
+                .body("Your new password is: " + newPassword)
+                .build();
+        tokenService.deleteByUserId(userEntity.getId());
+        emailService.sendEmail(mailData);
+    }
+
+    private String generatePassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            int index = random.nextInt(chars.length());
+            password.append(chars.charAt(index));
+        }
+        return password.toString();
     }
 
     private TokenDTO createTokenDTO(String refreshToken, Integer userId) {

@@ -11,5 +11,5 @@ public interface IAuthService {
     JwtResponse login(UserLogin request, HttpServletResponse response);
     UserDTO register(UserRegister request);
     JwtResponse loginGoogle(HttpServletRequest request, HttpServletResponse response);
-
+    void forgotPassword(String email);
 }

@@ -66,8 +66,8 @@ public class TokenService implements ITokenService {
 
     @Transactional
     @Override
-    public void deleteByUserIdAndDeviceInfo(Integer userId, String deviceInfo) {
-        tokenRepository.deleteByUser_Id(userId);
+    public void deleteByUserId(Integer userId) {
+        tokenRepository.deleteByUserId(userId);
     }
 
     @Override

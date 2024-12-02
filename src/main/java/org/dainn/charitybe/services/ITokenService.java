@@ -9,7 +9,7 @@ public interface ITokenService {
     TokenDTO insert(TokenDTO dto);
     String getRefreshTokenFromReq(HttpServletRequest request);
     JwtResponse handleRefreshToken(String refreshToken, HttpServletResponse response);
-    void deleteByUserIdAndDeviceInfo(Integer userId, String deviceInfo);
+    void deleteByUserId(Integer userId);
     TokenDTO findByRefreshToken(String refreshToken);
 
 }
