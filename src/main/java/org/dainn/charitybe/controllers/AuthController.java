@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
+import org.dainn.charitybe.dtos.auth.ForgotPassword;
 import org.dainn.charitybe.dtos.auth.UserLogin;
 import org.dainn.charitybe.dtos.auth.UserRegister;
 import org.dainn.charitybe.services.IAuthService;
@@ -45,6 +46,12 @@ public class AuthController {
     @PostMapping(Endpoint.Auth.LOGIN_GOOGLE)
     public ResponseEntity<?> googleLogin(HttpServletRequest request, HttpServletResponse response){
         return ResponseEntity.ok(authService.loginGoogle(request, response));
+    }
+
+    @PostMapping(Endpoint.Auth.FORGOT_PASSWORD)
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPassword request) {
+        authService.forgotPassword(request.getEmail());
+        return ResponseEntity.ok().build();
     }
 
 }
