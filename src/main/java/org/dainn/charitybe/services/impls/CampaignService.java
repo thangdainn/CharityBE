@@ -70,9 +70,9 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
-    public List<CampaignDTO> findByUserId(Integer userId) {
-        return projectRepository.findAllByUserId(userId)
-                .stream().map(projectMapper::toDTO).toList();
+    public Page<CampaignDTO> findByUserId(Integer userId, CampaignSearch request) {
+        return projectRepository.findAllByUserId(userId, Paging.getPageable(request))
+                .map(projectMapper::toDTO);
     }
 
     private String generateCodeFromName(String name) {

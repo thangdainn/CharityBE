@@ -13,7 +13,7 @@ public interface ICampaignService {
     CampaignDTO insert(CampaignDTO dto);
     CampaignDTO update(CampaignDTO dto);
     CampaignDTO updateCurrentAmount(BigDecimal amount, Integer id);
-    List<CampaignDTO> findByUserId(Integer userId);
+    Page<CampaignDTO> findByUserId(Integer userId, CampaignSearch request);
     CampaignDTO findById(Integer id);
     CampaignDetailDTO findByCode(String code);
     List<CampaignDTO> findAll();

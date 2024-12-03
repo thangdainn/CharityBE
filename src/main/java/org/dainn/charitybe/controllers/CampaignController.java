@@ -42,8 +42,14 @@ public class CampaignController {
     }
 
     @GetMapping(Endpoint.Campaign.USER)
-    public ResponseEntity<?> getByUser(@PathVariable Integer userId) {
-        return ResponseEntity.ok(projectService.findByUserId(userId));
+    public ResponseEntity<?> getByUser(@PathVariable Integer userId, @ModelAttribute CampaignSearch request) {
+        Page<CampaignDTO> page = projectService.findByUserId(userId, request);
+        return ResponseEntity.ok(PageResponse.<CampaignDTO>builder()
+                .page(page.getPageable().getPageNumber())
+                .size(page.getPageable().getPageSize())
+                .totalPages(page.getTotalPages())
+                .data(page.getContent())
+                .build());
     }
 
     @PostMapping
