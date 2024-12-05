@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.RoleConstant;
 import org.dainn.charitybe.dtos.MailData;
+import org.dainn.charitybe.dtos.OtpDTO;
 import org.dainn.charitybe.dtos.TokenDTO;
 import org.dainn.charitybe.dtos.UserDTO;
+import org.dainn.charitybe.dtos.auth.ForgotPassword;
 import org.dainn.charitybe.dtos.auth.UserLogin;
 import org.dainn.charitybe.dtos.auth.UserRegister;
 import org.dainn.charitybe.dtos.response.JwtResponse;
@@ -19,13 +21,12 @@ import org.dainn.charitybe.enums.Provider;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.filters.JwtProvider;
 import org.dainn.charitybe.mapper.IUserMapper;
+import org.dainn.charitybe.models.OtpEntity;
 import org.dainn.charitybe.models.UserEntity;
+import org.dainn.charitybe.repositories.IOtpRepository;
 import org.dainn.charitybe.repositories.IRoleRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
-import org.dainn.charitybe.services.IAuthService;
-import org.dainn.charitybe.services.IEmailService;
-import org.dainn.charitybe.services.ITokenService;
-import org.dainn.charitybe.services.IUserService;
+import org.dainn.charitybe.services.*;
 import org.dainn.charitybe.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +50,7 @@ public class AuthService implements IAuthService {
     private final JwtProvider jwtProvider;
     private final IUserMapper userMapper;
     private final IEmailService emailService;
+    private final IOtpService otpService;
 
     @Value("${jwt.refresh.expiration}")
     private Long expirationRefresh;
@@ -116,18 +118,36 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public void forgotPassword(String email) {
-        UserEntity userEntity = userRepository.findByEmailAndProviderAndStatus(email, Provider.LOCAL, 1)
+    public void forgotPassword(OtpDTO dto) {
+        OtpDTO otpDTO = otpService.findByCodeAndEmail(dto);
+        if (!otpDTO.getIsUsed()) {
+            throw new AppException(ErrorCode.OTP_IS_INCORRECT);
+        }
+        UserEntity userEntity = userRepository.findByEmailAndProviderAndStatus(dto.getEmail(), Provider.LOCAL, 1)
                 .orElseThrow(() -> new AppException(ErrorCode.EMAIL_IS_INCORRECT));
         String newPassword = generatePassword();
         userEntity.setPassword(encoder.encode(newPassword));
         userRepository.save(userEntity);
         MailData mailData = MailData.builder()
-                .to(email)
+                .to(dto.getEmail())
                 .subject("Forgot password")
                 .body("Your new password is: " + newPassword)
                 .build();
         tokenService.deleteByUserId(userEntity.getId());
+        otpService.delete(otpDTO.getId());
+        emailService.sendEmail(mailData);
+    }
+
+    @Override
+    public void sendOtp(ForgotPassword forgotPassword) {
+        OtpDTO otpDTO = new OtpDTO();
+        otpDTO.setEmail(forgotPassword.getEmail());
+        otpDTO = otpService.insert(otpDTO);
+        MailData mailData = MailData.builder()
+                .to(forgotPassword.getEmail())
+                .subject("Forgot password")
+                .body("Your OTP is: " + otpDTO.getCode())
+                .build();
         emailService.sendEmail(mailData);
     }
 
