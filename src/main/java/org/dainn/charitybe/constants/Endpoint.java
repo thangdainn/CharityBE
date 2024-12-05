@@ -10,8 +10,10 @@ public class Endpoint {
         public static final String LOGIN_GOOGLE = "/login/oauth2/google";
         public static final String REGISTER = "/register";
         public static final String REFRESH_TOKEN = "/refresh-token";
-
         public static final String FORGOT_PASSWORD = "/forgot-password";
+        public static final String SEND_OTP = "/send-otp";
+        public static final String VERIFY_OTP = "/verify-otp";
+
     }
 
     public static final class User {

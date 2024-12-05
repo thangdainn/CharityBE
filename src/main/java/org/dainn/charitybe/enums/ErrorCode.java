@@ -59,7 +59,9 @@ public enum ErrorCode {
 
     INVALID_TOKEN("Token is invalid", HttpStatus.BAD_REQUEST),
 
-    GOOGLE_LOGIN_FAILED("Authentication with Google fail", HttpStatus.BAD_REQUEST),;
+    GOOGLE_LOGIN_FAILED("Authentication with Google fail", HttpStatus.BAD_REQUEST),
+    OTP_IS_INCORRECT("OTP is invalid", HttpStatus.BAD_REQUEST),
+    OTP_IS_EXPIRED( "OTP is expired", HttpStatus.BAD_REQUEST);
 
     ErrorCode(String message, HttpStatusCode statusCode) {
         this.message = message;
