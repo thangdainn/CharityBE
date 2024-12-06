@@ -126,9 +126,12 @@ public class CampaignService implements ICampaignService {
         if (request.getEndDate() != null){
             builder.with("endDate", SearchOperation.LESS_THAN_OR_EQUAL, request.getEndDate(), false);
         }
-        builder.with("status", SearchOperation.NEGATION, CampaignStatus.REJECTED, false);
-        builder.with("status", SearchOperation.NEGATION, CampaignStatus.PENDING, false);
-
+        if (request.getStatus() != null){
+            builder.with("status", SearchOperation.EQUALITY, request.getStatus(), false);
+        } else {
+            builder.with("status", SearchOperation.NEGATION, CampaignStatus.REJECTED, false);
+            builder.with("status", SearchOperation.NEGATION, CampaignStatus.PENDING, false);
+        }
 
         spec = builder.build();
         if (request.getCategoryId() != null) {
