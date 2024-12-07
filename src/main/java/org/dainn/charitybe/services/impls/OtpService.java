@@ -2,6 +2,7 @@ package org.dainn.charitybe.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.dtos.OtpDTO;
+import org.dainn.charitybe.dtos.auth.ResetPassword;
 import org.dainn.charitybe.enums.ErrorCode;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.mapper.IOtpMapper;
@@ -50,7 +51,7 @@ public class OtpService implements IOtpService {
     }
 
     @Override
-    public OtpDTO findByCodeAndEmail(OtpDTO dto) {
+    public OtpDTO findByCodeAndEmail(ResetPassword dto) {
         return otpMapper.toDTO(otpRepository.findByCodeAndEmailOrderByCreatedDateDesc(dto.getCode(), dto.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.OTP_IS_INCORRECT)));
     }

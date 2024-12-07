@@ -12,5 +12,5 @@ import lombok.Setter;
 public class ResetPassword {
     private String email;
     private String code;
-    private String newPassword;
+    private String password;
 }
