@@ -100,8 +100,10 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public CampaignDetailDTO findByCode(String code) {
-        return projectMapper.toDetailDTO(projectRepository.findByCode(code)
+        CampaignDetailDTO dto = projectMapper.toDetailDTO(projectRepository.findByCode(code)
                 .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
+        dto.setTotalDonation(donationRepository.countByCampaignIdAndIsPaid(dto.getId(), true));
+        return dto;
     }
 
     @Override
