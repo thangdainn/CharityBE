@@ -13,6 +13,7 @@ import org.dainn.charitybe.dtos.OtpDTO;
 import org.dainn.charitybe.dtos.TokenDTO;
 import org.dainn.charitybe.dtos.UserDTO;
 import org.dainn.charitybe.dtos.auth.ForgotPassword;
+import org.dainn.charitybe.dtos.auth.ResetPassword;
 import org.dainn.charitybe.dtos.auth.UserLogin;
 import org.dainn.charitybe.dtos.auth.UserRegister;
 import org.dainn.charitybe.dtos.response.JwtResponse;
@@ -21,9 +22,7 @@ import org.dainn.charitybe.enums.Provider;
 import org.dainn.charitybe.exceptions.AppException;
 import org.dainn.charitybe.filters.JwtProvider;
 import org.dainn.charitybe.mapper.IUserMapper;
-import org.dainn.charitybe.models.OtpEntity;
 import org.dainn.charitybe.models.UserEntity;
-import org.dainn.charitybe.repositories.IOtpRepository;
 import org.dainn.charitybe.repositories.IRoleRepository;
 import org.dainn.charitybe.repositories.IUserRepository;
 import org.dainn.charitybe.services.*;
@@ -37,7 +36,6 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -118,28 +116,22 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public void forgotPassword(OtpDTO dto) {
+    public void forgotPassword(ResetPassword dto) {
         OtpDTO otpDTO = otpService.findByCodeAndEmail(dto);
         if (!otpDTO.getIsUsed()) {
             throw new AppException(ErrorCode.OTP_IS_INCORRECT);
         }
         UserEntity userEntity = userRepository.findByEmailAndProviderAndStatus(dto.getEmail(), Provider.LOCAL, 1)
                 .orElseThrow(() -> new AppException(ErrorCode.EMAIL_IS_INCORRECT));
-        String newPassword = generatePassword();
-        userEntity.setPassword(encoder.encode(newPassword));
+        userEntity.setPassword(encoder.encode(dto.getNewPassword()));
         userRepository.save(userEntity);
-        MailData mailData = MailData.builder()
-                .to(dto.getEmail())
-                .subject("Forgot password")
-                .body("Your new password is: " + newPassword)
-                .build();
         tokenService.deleteByUserId(userEntity.getId());
         otpService.delete(otpDTO.getId());
-        emailService.sendEmail(mailData);
     }
 
     @Override
     public void sendOtp(ForgotPassword forgotPassword) {
+        userService.findByEmailAndProvider(forgotPassword.getEmail(), Provider.LOCAL);
         OtpDTO otpDTO = new OtpDTO();
         otpDTO.setEmail(forgotPassword.getEmail());
         otpDTO = otpService.insert(otpDTO);
@@ -149,17 +141,6 @@ public class AuthService implements IAuthService {
                 .body("Your OTP is: " + otpDTO.getCode())
                 .build();
         emailService.sendEmail(mailData);
-    }
-
-    private String generatePassword() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder password = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            int index = random.nextInt(chars.length());
-            password.append(chars.charAt(index));
-        }
-        return password.toString();
     }
 
     private TokenDTO createTokenDTO(String refreshToken, Integer userId) {

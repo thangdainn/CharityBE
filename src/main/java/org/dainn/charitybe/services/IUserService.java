@@ -4,6 +4,7 @@ package org.dainn.charitybe.services;
 import jakarta.servlet.http.HttpServletRequest;
 import org.dainn.charitybe.dtos.UserDTO;
 import org.dainn.charitybe.dtos.request.UserSearch;
+import org.dainn.charitybe.enums.Provider;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface IUserService {
     UserDTO insert(UserDTO dto);
     UserDTO update(UserDTO dto);
+    UserDTO findByEmailAndProvider(String email, Provider provider);
     void delete(List<Integer> ids);
     UserDTO findById(Integer id);
     UserDTO getMyInfo(HttpServletRequest request);

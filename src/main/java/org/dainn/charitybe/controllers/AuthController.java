@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.dainn.charitybe.constants.Endpoint;
 import org.dainn.charitybe.dtos.OtpDTO;
 import org.dainn.charitybe.dtos.auth.ForgotPassword;
+import org.dainn.charitybe.dtos.auth.ResetPassword;
 import org.dainn.charitybe.dtos.auth.UserLogin;
 import org.dainn.charitybe.dtos.auth.UserRegister;
 import org.dainn.charitybe.services.IAuthService;
@@ -52,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping(Endpoint.Auth.FORGOT_PASSWORD)
-    public ResponseEntity<?> forgotPassword(@RequestBody OtpDTO request) {
+    public ResponseEntity<?> forgotPassword(@RequestBody ResetPassword request) {
         authService.forgotPassword(request);
         return ResponseEntity.ok().build();
     }

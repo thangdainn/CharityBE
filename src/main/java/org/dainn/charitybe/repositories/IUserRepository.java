@@ -20,4 +20,6 @@ public interface IUserRepository extends JpaRepository<UserEntity, Integer>, Jpa
     @Query("UPDATE UserEntity u SET u.status = 0 WHERE u.id IN :ids")
     void deleteAllByIdInBatchCustom(@Param("ids") List<Integer> ids);
     List<UserEntity> findAllByStatus(Integer status);
+
+    Optional<UserEntity> findByEmailAndProvider(String email, Provider provider);
 }
