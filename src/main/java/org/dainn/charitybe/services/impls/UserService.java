@@ -33,6 +33,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+
 public class UserService implements IUserService {
     private final PasswordEncoder encoder;
     private final IUserRepository userRepository;
@@ -73,6 +74,12 @@ public class UserService implements IUserService {
         UserEntity userEntity = userMapper.updateEntity(userOld, dto);
         userEntity.setRole(handleRole(dto.getRoleName()));
         return userMapper.toDTO(userRepository.save(userEntity));
+    }
+
+    @Override
+    public UserDTO findByEmailAndProvider(String email, Provider provider) {
+        return userMapper.toDTO(userRepository.findByEmailAndProvider(email, provider)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     private boolean checkEmailAndProvider(String email, Provider provider) {
