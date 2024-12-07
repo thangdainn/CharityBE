@@ -123,7 +123,7 @@ public class AuthService implements IAuthService {
         }
         UserEntity userEntity = userRepository.findByEmailAndProviderAndStatus(dto.getEmail(), Provider.LOCAL, 1)
                 .orElseThrow(() -> new AppException(ErrorCode.EMAIL_IS_INCORRECT));
-        userEntity.setPassword(encoder.encode(dto.getNewPassword()));
+        userEntity.setPassword(encoder.encode(dto.getPassword()));
         userRepository.save(userEntity);
         tokenService.deleteByUserId(userEntity.getId());
         otpService.delete(otpDTO.getId());
