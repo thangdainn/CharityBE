@@ -28,4 +28,5 @@ public class CampaignDetailDTO extends BaseDTO {
     private CampaignStatus status;
     private CategoryDTO category;
     private UserDTO owner;
+    private Integer totalDonation = 0;
 }
